@@ -6,6 +6,7 @@ from typing import Any, Protocol
 from uuid import uuid4
 
 from app.core.config import Settings, get_settings
+from app.modules.conversation.landmark_context import LANDMARK_NAMES, resolve_landmark_query
 from app.modules.conversation.memory import ConversationMemoryStore, normalize_stt_transcript
 from app.modules.knowledge.models import EvidencePackage
 from app.modules.query_router.router import (
@@ -73,6 +74,7 @@ class TurnRecord:
     transcript: str | None
     response_mode: ResponseMode
     story_access_level: int = 0
+    location_id: str | None = None
     audio_input_bytes: bytes | None = None
     audio_input_mime: str = "audio/wav"
     status: TurnStatus = TurnStatus.PENDING
@@ -134,6 +136,7 @@ class InMemoryTurnService:
         response_mode: ResponseMode,
         *,
         story_access_level: int = 0,
+        location_id: str | None = None,
         audio_input_bytes: bytes | None = None,
         audio_input_mime: str = "audio/wav",
     ) -> str:
@@ -145,6 +148,7 @@ class InMemoryTurnService:
             transcript=transcript,
             response_mode=response_mode,
             story_access_level=story_access_level,
+            location_id=location_id if location_id in LANDMARK_NAMES else None,
             audio_input_bytes=audio_input_bytes,
             audio_input_mime=audio_input_mime,
         )
@@ -162,6 +166,7 @@ class InMemoryTurnService:
             return
 
         record = self._turns[turn_id]
+        record.audio_input_bytes = None
         record.status = TurnStatus.VERIFYING
         record.answer_id = f"ans_{turn_id}"
         record.answer_text = SAFE_FALLBACK
@@ -181,6 +186,7 @@ class InMemoryTurnService:
         # 1. Optional Voice Input -> STT
         if record.input_type == "voice" and not record.transcript:
             if self._stt_provider is None or not record.audio_input_bytes:
+                record.audio_input_bytes = None
                 self._complete_with_fallback(record, turn_id, SAFE_FALLBACK_TEXT)
                 return
             record.status = TurnStatus.TRANSCRIBING
@@ -193,6 +199,8 @@ class InMemoryTurnService:
             except Exception:
                 self._complete_with_fallback(record, turn_id, SAFE_FALLBACK_TEXT)
                 return
+            finally:
+                record.audio_input_bytes = None
             record.transcript = normalize_stt_transcript(transcript or "") or None
             if not record.transcript:
                 self._complete_with_fallback(record, turn_id, SAFE_FALLBACK_TEXT)
@@ -205,7 +213,11 @@ class InMemoryTurnService:
 
         # 2. Multi-turn coreference resolution + Query Analysis & Source Routing
         record.status = TurnStatus.ROUTING
-        query = self._memory.rewrite_query(record.conversation_id, raw_query)
+        location_query = resolve_landmark_query(raw_query, record.location_id)
+        query = (
+            location_query if location_query != raw_query
+            else self._memory.rewrite_query(record.conversation_id, raw_query)
+        )
         plan = analyze_query(query, allowed_story_access_level=record.story_access_level)
 
         if plan.route_mode == RouteMode.DIRECT:
@@ -494,6 +506,12 @@ class InMemoryTurnService:
             conversation_id=record.conversation_id,
             status=record.status,
             input=TurnInput(type=record.input_type, transcript=record.transcript),
+            location_context=(
+                {"location_id": record.location_id,
+                 "display_name": LANDMARK_NAMES[record.location_id],
+                 "source": "client_selection", "visual_verified": False}
+                if record.location_id in LANDMARK_NAMES else None
+            ),
             answer=(
                 Answer(
                     answer_id=record.answer_id or f"ans_{turn_id}",

@@ -30,6 +30,7 @@ def create_text_turn(
         body.message,
         body.response_mode,
         story_access_level=body.story_access_level,
+        location_id=body.location_id,
     )
     background_tasks.add_task(service.process_mock_turn, turn_id)
     return TurnAcceptedResponse(

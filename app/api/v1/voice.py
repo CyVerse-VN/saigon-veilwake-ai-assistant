@@ -44,6 +44,7 @@ async def create_voice_turn(
     response_mode: ResponseMode = Form(default=ResponseMode.TEXT_AND_VOICE),
     story_access_level: int = Form(default=0, ge=0, le=5),
     locale: str = Form(default="vi-VN"),
+    location_id: str | None = Form(default=None, max_length=100),
     _: None = Depends(require_internal_service),
     settings: Settings = Depends(get_settings),
     service: InMemoryTurnService = Depends(get_turn_service),
@@ -69,6 +70,7 @@ async def create_voice_turn(
         None,
         response_mode,
         story_access_level=story_access_level,
+        location_id=location_id,
         audio_input_bytes=contents,
         audio_input_mime=audio.content_type or "audio/wav",
     )

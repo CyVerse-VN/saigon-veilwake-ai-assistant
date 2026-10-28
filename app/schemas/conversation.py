@@ -75,4 +75,5 @@ class TurnResponse(BaseModel):
     input: TurnInput
     answer: Answer | None = None
     audio: Audio
+    location_context: dict[str, Any] | None = None
     request_id: str = Field(default_factory=lambda: f"req_{uuid4().hex}")

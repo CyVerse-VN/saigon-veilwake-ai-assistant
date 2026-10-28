@@ -4,7 +4,16 @@ Backend component for the game's AI Guide. The Game Backend remains the authorit
 player identity, quests, rewards, and story-access level. This service accepts only a
 trusted internal request, then handles the AI conversation, evidence pipeline and voice.
 
-## Current implementation boundary
+## Mobile Kiri integration
+
+The `/v1` service builder now connects verified RAG, optional web fallback, STT and TTS
+when the required environment settings are configured; otherwise it remains fail-closed.
+Some early-milestone notes below describe the original mock slice. The implementation
+in `build_turn_service` and the deployed configuration determine actual capability.
+See [mobile landmark context](docs/Mobile_Kiri_Landmark_Context.md) for the additive
+`location_id` contract, first-turn place disambiguation and mobile/auth boundary.
+
+## Original implementation boundary (historical)
 
 The real local voice demo is now available through `/dev/v1` and the built-in
 `/dev/` web UI, separately from the existing mock game pipeline described below.
