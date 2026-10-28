@@ -150,3 +150,41 @@ test("a retried audio download cannot replace the next turn's audio", async () =
   assert.equal(ui.node("reply-audio").src, undefined);
   assert.equal(ui.node("audio-area").hidden, true);
 });
+
+test("Render Cloud API base URL routes requests to https://saigon-veilwake-ai-assistant.onrender.com/v1/* and renders answer.citations", async () => {
+  const calledUrls = [];
+  const renderTurn = {
+    status: "COMPLETED",
+    input: {transcript: "Chợ Bến Thành ở đâu?"},
+    answer: {
+      text: "Chợ Bến Thành nằm ở Quận 1 [ev_01].",
+      verification_status: "PASS",
+      citations: [{evidence_id: "ev_01", source_type: "web_search", title: "Chợ Bến Thành", section_path: ["Wikipedia"], source_span: "vi.wikipedia.org"}],
+    },
+    audio: {status: "READY", endpoint: "/v1/turns/render-turn-1/audio"},
+  };
+  const ui = harness(async (url, options) => {
+    calledUrls.push(`${options?.method || "GET"} ${url.href}`);
+    if (url.pathname === "/v1/conversations") return json(session);
+    if (url.pathname === "/v1/conversations/offline-session/turns") return json({turn_id: "render-turn-1"});
+    if (url.pathname === "/v1/turns/render-turn-1") return json(renderTurn);
+    if (url.pathname === "/v1/turns/render-turn-1/audio") {
+      return {ok: true, blob: async () => new Blob(["wav-bytes"])};
+    }
+    throw new Error(`Unexpected URL: ${url.href}`);
+  });
+  ui.node("api-base-url").value = "https://saigon-veilwake-ai-assistant.onrender.com";
+  await ui.fire("connect-form", "submit");
+  assert.equal(ui.node("connection-status").textContent, "● Đã kết nối (Render Cloud)");
+  ui.node("message").value = "Chợ Bến Thành ở đâu?";
+  await ui.fire("text-form", "submit");
+  assert.deepEqual(calledUrls, [
+    "POST https://saigon-veilwake-ai-assistant.onrender.com/v1/conversations",
+    "POST https://saigon-veilwake-ai-assistant.onrender.com/v1/conversations/offline-session/turns",
+    "GET https://saigon-veilwake-ai-assistant.onrender.com/v1/turns/render-turn-1",
+    "GET https://saigon-veilwake-ai-assistant.onrender.com/v1/turns/render-turn-1/audio",
+  ]);
+  assert.equal(ui.node("answer").textContent, "Chợ Bến Thành nằm ở Quận 1 [ev_01].");
+  assert.equal(ui.node("verification-badge").textContent, "ĐÃ KIỂM CHỨNG · RAG PASS");
+  assert.match(ui.node("citations-list").textContent, /\[ev_01\] \(WEB\) Wikipedia/);
+});

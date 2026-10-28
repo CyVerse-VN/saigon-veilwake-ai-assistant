@@ -46,7 +46,7 @@ export class BrowserRecorder {
       });
       this.context = new AudioContext();
       await this.context.resume();
-      await this.context.audioWorklet.addModule("/dev/assets/pcm-worklet.js");
+      await this.context.audioWorklet.addModule(new URL("./pcm-worklet.js", import.meta.url));
       this.node = new AudioWorkletNode(this.context, "pcm-recorder");
       this.node.port.onmessage = ({data}) => {
         if (data.samples) {

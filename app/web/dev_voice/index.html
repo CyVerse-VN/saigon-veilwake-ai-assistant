@@ -5,26 +5,31 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Voice Lab · Saigon: Veilwake</title>
   <link rel="icon" href="data:,">
-  <link rel="stylesheet" href="/dev/assets/style.css">
-  <link rel="stylesheet" href="/dev/assets/tts.css">
-  <script type="module" src="/dev/assets/app.js"></script>
+  <link rel="stylesheet" href="./assets/style.css">
+  <link rel="stylesheet" href="./assets/tts.css">
+  <script type="module" src="./assets/app.js"></script>
 </head>
 <body>
   <div class="shell">
-    <header class="topbar"><a class="brand" href="/dev/"><span class="brand-icon" aria-hidden="true">◈</span><span>SAIGON: VEILWAKE<small>VOICE LAB</small></span></a><span class="pill">LOCAL DEMO <span class="dot"></span></span></header>
+    <header class="topbar"><a class="brand" href="./"><span class="brand-icon" aria-hidden="true">◈</span><span>SAIGON: VEILWAKE<small>VOICE LAB</small></span></a><span class="pill">CLOUD / LOCAL DEMO <span class="dot"></span></span></header>
     <main>
       <section class="intro"><div class="eyebrow">MỘT CÂU NÓI. MỘT LỜI ĐÁP.</div><h1>Thử trò chuyện<br>bằng <em>giọng nói.</em></h1><p>Nhấn mic, nói một câu rồi nhấn dừng. Phần còn lại để Voice Lab lo.</p></section>
       <section class="access" aria-labelledby="access-title">
-        <div><h2 id="access-title">Kết nối phiên thử nghiệm</h2><p>Chạy thử trên máy của bạn.</p></div>
+        <div><h2 id="access-title">Kết nối phiên thử nghiệm</h2><p>Gọi trực tiếp API Render (https://saigon-veilwake-ai-assistant.onrender.com) hoặc Local.</p></div>
         <form id="connect-form"><button id="connect-button" class="secondary" type="submit">Kết nối <span aria-hidden="true">↗</span></button><button id="disconnect-button" class="secondary" type="button" hidden>Ngắt kết nối</button></form>
       </section>
       <section class="tts-config panel" aria-labelledby="tts-config-title">
         <div>
           <span class="eyebrow">THIẾT LẬP TEST</span>
-          <h2 id="tts-config-title">Giọng phản hồi &amp; Tiến trình Lore</h2>
-          <p class="muted">Chọn provider và mức mở khóa cốt truyện (Spoiler Gate) cho lượt kế tiếp. Key và địa chỉ service luôn nằm ở server.</p>
+          <h2 id="tts-config-title">Máy chủ API, Giọng phản hồi &amp; Tiến trình Lore</h2>
+          <p class="muted">Mặc định kết nối tới Render Cloud API (/v1) với giọng ElevenLabs Voice Lab.</p>
         </div>
         <div class="tts-controls">
+          <label for="api-base-url">API Server</label>
+          <select id="api-base-url">
+            <option value="https://saigon-veilwake-ai-assistant.onrender.com" selected>Render Cloud (saigon-veilwake-ai-assistant.onrender.com)</option>
+            <option value="">Local Dev Server (/dev/v1)</option>
+          </select>
           <label for="tts-provider">TTS provider</label>
           <select id="tts-provider" disabled><option>Đang tải lựa chọn…</option></select>
           <label id="vieneu-voice-label" for="vieneu-voice" hidden>Giọng VieNeu</label>

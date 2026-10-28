@@ -225,3 +225,16 @@ def web_asset(name: str) -> FileResponse:
         raise DevApiError(404, "NOT_FOUND", "Not found.")
     mime = "text/css" if name.endswith(".css") else "text/javascript"
     return FileResponse(WEB_ROOT / name, media_type=mime, headers={"Cache-Control": "no-store"})
+
+
+@router.get("/ui/", include_in_schema=False)
+def cloud_web_ui() -> FileResponse:
+    return FileResponse(WEB_ROOT / "index.html", headers={"Cache-Control": "no-store"})
+
+
+@router.get("/ui/assets/{name}", include_in_schema=False)
+def cloud_web_asset(name: str) -> FileResponse:
+    if name not in {"app.js", "audio.js", "pcm-worklet.js", "style.css", "tts.css"}:
+        raise DevApiError(404, "NOT_FOUND", "Not found.")
+    mime = "text/css" if name.endswith(".css") else "text/javascript"
+    return FileResponse(WEB_ROOT / name, media_type=mime, headers={"Cache-Control": "no-store"})

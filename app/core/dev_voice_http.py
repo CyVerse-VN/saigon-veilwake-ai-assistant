@@ -65,7 +65,11 @@ class DevRequestGuard:
                     (
                         b"content-security-policy",
                         b"default-src 'self'; script-src 'self'; style-src 'self'; "
-                        b"connect-src 'self'; media-src 'self' blob:; worker-src 'self'; "
+                        b"connect-src 'self' https://saigon-veilwake-ai-assistant.onrender.com "
+                        b"https://*.onrender.com; "
+                        b"media-src 'self' blob: "
+                        b"https://saigon-veilwake-ai-assistant.onrender.com; "
+                        b"worker-src 'self'; "
                         b"object-src 'none'; frame-ancestors 'none'; base-uri 'none'",
                     ),
                 ]

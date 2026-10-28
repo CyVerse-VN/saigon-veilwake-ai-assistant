@@ -1,4 +1,4 @@
-import {BrowserRecorder} from "/dev/assets/audio.js";
+import {BrowserRecorder} from "./audio.js";
 
 const $ = id => document.getElementById(id);
 let conversation = null, recording = null, busy = false;
@@ -7,25 +7,36 @@ let pendingAudio = null, audioGeneration = 0;
 let abort = new AbortController();
 let ttsOptions = null;
 const terminal = new Set(["COMPLETED", "COMPLETED_TEXT_ONLY", "FAILED"]);
-const states = {PENDING: "Đã nhận câu hỏi, đang chờ xử lý…", TRANSCRIBING: "Đang nhận dạng lời nói…",
-  GENERATING: "Đang soạn câu trả lời…", SYNTHESIZING: "Đang tạo giọng phản hồi…",
-  COMPLETED: "Đã hoàn tất lượt trò chuyện.", COMPLETED_TEXT_ONLY: "Text đã sẵn sàng. Hiện chưa có giọng phản hồi.",
-  FAILED: "Lượt trò chuyện chưa hoàn tất. Bạn có thể thử một lượt mới."};
+const states = {
+  PENDING: "Đã nhận câu hỏi, đang chờ xử lý…",
+  ROUTING: "Đang phân tích câu hỏi…",
+  RETRIEVING: "Đang tra cứu tri thức RAG / Web…",
+  TRANSCRIBING: "Đang nhận dạng lời nói…",
+  GENERATING: "Đang soạn câu trả lời…",
+  VERIFYING: "Đang kiểm chứng câu trả lời (Verification Gate)…",
+  SYNTHESIZING: "Đang tạo giọng phản hồi (ElevenLabs)…",
+  COMPLETED: "Đã hoàn tất lượt trò chuyện.",
+  COMPLETED_TEXT_ONLY: "Text đã sẵn sàng. Hiện chưa có giọng phản hồi.",
+  FAILED: "Lượt trò chuyện chưa hoàn tất. Bạn có thể thử một lượt mới.",
+};
 
+function remoteBase() { return ($("api-base-url")?.value || "").trim().replace(/\/+$/, ""); }
 function status(message, error = false) { $("status-message").textContent = message; $("status-message").classList.toggle("error", error); }
 function controls() {
+  const locked = busy || Boolean(recording) || Boolean(pending);
   $("mic-button").disabled = !conversation || busy || Boolean(pending);
-  $("send-text").disabled = !conversation || busy || Boolean(recording) || Boolean(pending);
-  $("want-voice").disabled = busy || Boolean(recording) || Boolean(pending);
-  $("tts-provider").disabled = busy || Boolean(recording) || Boolean(pending) || !ttsOptions;
-  $("vieneu-voice").disabled = busy || Boolean(recording) || Boolean(pending) ||
-    !ttsOptions || !["vieneu", "elevenlabs"].includes($("tts-provider").value);
-  $("story-access-level").disabled = busy || Boolean(recording) || Boolean(pending);
+  $("send-text").disabled = !conversation || locked;
+  $("want-voice").disabled = locked;
+  if ($("api-base-url")) $("api-base-url").disabled = locked;
+  $("tts-provider").disabled = locked || !ttsOptions || Boolean(remoteBase());
+  $("vieneu-voice").disabled = locked ||
+    !ttsOptions || Boolean(remoteBase()) || !["vieneu", "elevenlabs"].includes($("tts-provider").value);
+  $("story-access-level").disabled = locked;
   $("mic-label").textContent = recording ? "Dừng và nhận phản hồi" : "Nhấn để nói";
   $("voice-orb").classList.toggle("recording", Boolean(recording));
 }
 function selectedTts() {
-  const provider = $("tts-provider").value;
+  const provider = $("tts-provider").value || "elevenlabs";
   return {provider, voice: ["vieneu", "elevenlabs"].includes(provider) ? ($("vieneu-voice").value || null) : null};
 }
 function selectedStoryAccessLevel() {
@@ -36,9 +47,9 @@ function updateVoiceChoices() {
   const provider = $("tts-provider").value;
   const voiceLabel = $("vieneu-voice-label"), voice = $("vieneu-voice");
   const option = ttsOptions?.providers?.find(item => item.id === provider);
-  const visible = ["vieneu", "elevenlabs"].includes(provider) && option?.available && option?.voices?.length > 0;
+  const visible = !remoteBase() && ["vieneu", "elevenlabs"].includes(provider) && option?.available && option?.voices?.length > 0;
   voiceLabel.hidden = !visible; voice.hidden = !visible;
-  if (visible) {
+  if (visible && typeof voice.replaceChildren === "function") {
     voiceLabel.textContent = provider === "elevenlabs" ? "Giọng ElevenLabs" : "Giọng VieNeu";
     const defaultVoice = provider === "elevenlabs" ? ttsOptions.elevenlabs_default_voice : ttsOptions.vieneu_default_voice;
     const previous = voice.value || defaultVoice;
@@ -50,16 +61,35 @@ function updateVoiceChoices() {
     if (previous && [...voice.options].some(item => item.value === previous)) voice.value = previous;
     else if (voice.options.length) voice.value = voice.options[0].value;
   }
-  $("tts-choice-note").textContent = provider === "elevenlabs"
-    ? "ElevenLabs (Voice Lab) dùng giọng bạn đã chọn cho lượt kế tiếp."
-    : (provider === "vieneu"
-      ? "VieNeu chạy local; giọng được áp dụng cho lượt kế tiếp."
-      : "Gemini TTS dùng giọng test mặc định của server cho lượt kế tiếp.");
+  $("tts-choice-note").textContent = remoteBase()
+    ? `Đang dùng API Render (${remoteBase()}) với giọng ElevenLabs Voice Lab cấu hình trên server.`
+    : (provider === "elevenlabs"
+      ? "ElevenLabs (Voice Lab) dùng giọng bạn đã chọn cho lượt kế tiếp."
+      : (provider === "vieneu"
+        ? "VieNeu chạy local; giọng được áp dụng cho lượt kế tiếp."
+        : "Gemini TTS dùng giọng test mặc định của server cho lượt kế tiếp."));
   controls();
 }
 async function loadTtsOptions() {
-  ttsOptions = await (await api("/dev/v1/tts/options")).json();
   const provider = $("tts-provider");
+  if (remoteBase()) {
+    ttsOptions = {
+      default_provider: "elevenlabs",
+      elevenlabs_default_voice: null,
+      vieneu_default_voice: null,
+      providers: [{id: "elevenlabs", label: "ElevenLabs (Voice Lab · Render)", available: true, voices: []}],
+    };
+    if (typeof provider.replaceChildren === "function" && typeof document.createElement === "function") {
+      const option = document.createElement("option");
+      option.value = "elevenlabs";
+      option.textContent = "ElevenLabs (Voice Lab · Render)";
+      provider.replaceChildren(option);
+    }
+    provider.value = "elevenlabs";
+    updateVoiceChoices();
+    return;
+  }
+  ttsOptions = await (await api("/dev/v1/tts/options")).json();
   const available = ttsOptions.providers.filter(item => item.available);
   if (!available.length) throw new Error("Khong co TTS provider nao san sang de test.");
   provider.replaceChildren(...available.map(item => {
@@ -70,12 +100,25 @@ async function loadTtsOptions() {
   updateVoiceChoices();
 }
 async function api(path, options = {}) {
-  const url = new URL(path, location.origin);
-  if (url.origin !== location.origin || !url.pathname.startsWith("/dev/v1/")) throw new Error("Đường dẫn API không hợp lệ.");
+  const base = remoteBase();
+  let url;
+  if (base) {
+    const normalizedPath = path.startsWith("/dev/v1/") ? path.slice(4) : path;
+    url = new URL(normalizedPath, base);
+    const allowedOrigin = new URL(base).origin;
+    if (url.origin !== allowedOrigin || !url.pathname.startsWith("/v1/")) {
+      throw new Error("Đường dẫn API không hợp lệ.");
+    }
+  } else {
+    url = new URL(path, location.origin);
+    if (url.origin !== location.origin || !url.pathname.startsWith("/dev/v1/")) {
+      throw new Error("Đường dẫn API không hợp lệ.");
+    }
+  }
   const parent = abort.signal, requestAbort = new AbortController();
   const cancel = () => requestAbort.abort();
   parent.addEventListener("abort", cancel, {once: true});
-  const timeout = setTimeout(cancel, 30000);
+  const timeout = setTimeout(cancel, base ? 60000 : 30000);
   let response;
   try {
     response = await fetch(url, {...options, signal: requestAbort.signal, cache: "no-store"});
@@ -111,7 +154,7 @@ function clearResults() {
 }
 function showTurn(turn) {
   status(states[turn.status] || "Đang xử lý…", turn.status === "FAILED");
-  if (turn.input.transcript) $("transcript").textContent = turn.input.transcript;
+  if (turn.input?.transcript) $("transcript").textContent = turn.input.transcript;
   if (turn.answer) {
     $("answer").textContent = turn.answer.text;
     const vStatus = turn.answer.verification_status;
@@ -119,9 +162,10 @@ function showTurn(turn) {
       ? "ĐÃ KIỂM CHỨNG · RAG PASS"
       : (vStatus === "FALLBACK" ? "GIỚI HẠN / CHẶN SPOILER" : "CHƯA KIỂM CHỨNG");
   }
-  if (turn.citations?.length) {
+  const citations = turn.citations?.length ? turn.citations : (turn.answer?.citations || []);
+  if (citations.length) {
     $("citations-area").hidden = false;
-    $("citations-list").textContent = turn.citations
+    $("citations-list").textContent = citations
       .map(c => {
         const kind = c.source_type === "web_search" ? "WEB" : "RAG";
         const sec = Array.isArray(c.section_path) && c.section_path.length ? c.section_path.join(" > ") : (c.section || c.title);
@@ -132,14 +176,15 @@ function showTurn(turn) {
   } else {
     $("citations-area").hidden = true;
   }
-  const timings = turn.timings;
+  const timings = turn.timings || {};
   for (const [id, value] of [["stt-time", timings.stt_seconds], ["llm-time", timings.llm_seconds], ["tts-time", timings.tts_seconds]]) {
     $(id).textContent = value == null ? "—" : `${value.toFixed(2)}s`;
   }
-  const stages = ["TRANSCRIBING", "GENERATING", "SYNTHESIZING"], position = stages.indexOf(turn.status);
+  const mappedStage = ["ROUTING", "RETRIEVING", "VERIFYING"].includes(turn.status) ? "GENERATING" : turn.status;
+  const stages = ["TRANSCRIBING", "GENERATING", "SYNTHESIZING"], position = stages.indexOf(mappedStage);
   for (const step of document.querySelectorAll("[data-stage]")) {
     const index = stages.indexOf(step.dataset.stage);
-    step.className = step.dataset.stage === turn.status ? "active" :
+    step.className = step.dataset.stage === mappedStage ? "active" :
       ((position > index || (terminal.has(turn.status) && turn.status !== "FAILED")) ? "done" : "");
   }
   if (turn.error) status(`${states[turn.status] || ""} ${turn.error.message}`, turn.status === "FAILED");
@@ -241,13 +286,16 @@ $("connect-form").addEventListener("submit", async event => {
     try { await loadTtsOptions(); }
     catch (error) { $("tts-choice-note").textContent = error.message || "Chua tai duoc lua chon TTS."; }
     $("connect-button").hidden = true; $("disconnect-button").hidden = false;
-    $("connection-status").textContent = "● Đã kết nối"; $("connection-status").classList.add("online");
+    $("connection-status").textContent = remoteBase() ? "● Đã kết nối (Render Cloud)" : "● Đã kết nối";
+    $("connection-status").classList.add("online");
     $("record-hint").textContent = "Nhấn mic để nói. Nhấn lần nữa để dừng và tự gửi.";
-    status("Đã kết nối. Bạn có thể bắt đầu nói hoặc thử bằng văn bản.");
+    status(remoteBase()
+      ? `Đã kết nối tới ${remoteBase()}. Bạn có thể bắt đầu nói hoặc thử bằng văn bản.`
+      : "Đã kết nối. Bạn có thể bắt đầu nói hoặc thử bằng văn bản.");
   } catch (error) { if (current === generation) status(error.message || "Chưa kết nối được backend.", true); }
   finally { if (current === generation) { busy = false; $("connect-button").disabled = false; controls(); } }
 });
-$("disconnect-button").addEventListener("click", async () => {
+async function disconnectSession() {
   generation++; abort.abort(); abort = new AbortController();
   clearInterval(timer); clearTimeout(limitTimer);
   await recording?.dispose(); recording = null; conversation = null; pending = null; busy = false;
@@ -255,6 +303,13 @@ $("disconnect-button").addEventListener("click", async () => {
   $("connect-button").hidden = false; $("disconnect-button").hidden = true;
   $("connection-status").textContent = "Chưa kết nối"; $("connection-status").classList.remove("online");
   status("Đã ngắt kết nối. Lượt đã gửi có thể vẫn đang hoàn tất trên server."); controls();
+}
+$("disconnect-button").addEventListener("click", disconnectSession);
+$("api-base-url")?.addEventListener("change", async () => {
+  if (conversation) await disconnectSession();
+  status(remoteBase()
+    ? `Đã chọn server Render (${remoteBase()}). Nhấn Kết nối để tạo phiên mới.`
+    : "Đã chọn Local Dev Server (/dev/v1). Nhấn Kết nối để tạo phiên mới.");
 });
 $("mic-button").addEventListener("click", async () => {
   if (recording) return stopRecording();
