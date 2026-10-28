@@ -1,0 +1,282 @@
+{
+  "$schema_version": "1.0",
+  "manifest_id": "game_world_v1_0",
+  "purpose": "Review-first ingestion manifest for the canonical Saigon: Veilwake game-world source. This file does not trigger embedding or database writes.",
+  "source": {
+    "source_id": "game_world_v1_0",
+    "path": "base_knowlegde/Saigon_Veilwake_Ban_Chot_Y_Tuong_The_Gioi_Game_v1.0 (1).docx",
+    "format": "docx",
+    "sha256": "8181c6dc558558726ed469c7da795c9d1c49e342579e22f7f6297e29b9758d83",
+    "title": "Saigon: Veilwake — Bản chốt ý tưởng, thế giới quan và cơ chế trò chơi",
+    "document_version": "1.0",
+    "published_at": "2026-10-25",
+    "language": "vi",
+    "knowledge_domain": "game_lore",
+    "authority": "game_design_canonical",
+    "approval_status": "approved_for_reviewed_ingestion",
+    "visibility": "player",
+    "canonical_url": null,
+    "license": "internal_project_material",
+    "notes": [
+      "This is fictional game-lore/design material. It is not an authority for real-world history, opening hours, prices, routes, or events.",
+      "The document contains future-season reveals and internal planning material; section and table-row rules below must be applied before a chunk becomes retrievable."
+    ]
+  },
+  "ingestion_policy": {
+    "mode": "dry_run_then_explicit_commit",
+    "parser": {
+      "preserve_heading_path": true,
+      "preserve_lists": true,
+      "preserve_quotes_with_parent_section": true,
+      "extract_tables_as_structured_rows": true,
+      "do_not_flatten_table_cells_into_unlabelled_paragraphs": true
+    },
+    "chunking": {
+      "strategy": "heading_and_paragraph_aware",
+      "target_tokens": 500,
+      "min_tokens": 250,
+      "max_tokens": 650,
+      "overlap_tokens": 80,
+      "prepend_section_breadcrumb": true,
+      "keep_definition_with_conditions": true,
+      "keep_table_row_atomic": true
+    },
+    "embedding": {
+      "enabled": true,
+      "blocked_until": [
+        "source hash matches",
+        "all section rules are reviewed",
+        "table-row spoiler overrides are reviewed",
+        "lore owner explicitly approves commit"
+      ]
+    },
+    "retrieval_invariants": [
+      "Filter knowledge_domain, visibility, approval status and story_access_level before semantic or keyword ranking.",
+      "A filtered or missing lore chunk never permits a web-search fallback.",
+      "Citations must resolve to source_id, document_version, section_path and source span.",
+      "Never return chunks marked excluded_from_player_rag to a player-facing answer."
+    ]
+  },
+  "story_access_levels": {
+    "0": "Onboarding/public-to-all-players lore and product principles.",
+    "1": "Available after Chapter 1 has been unlocked.",
+    "2": "Available after Chapter 2 has been unlocked.",
+    "3": "Available after Chapter 3 has been unlocked.",
+    "4": "Available after Chapter 4 has been unlocked.",
+    "5": "Season-ending or antagonist-resolution content; available only after the final game gate."
+  },
+  "default_chunk_metadata": {
+    "knowledge_domain": "game_lore",
+    "language": "vi",
+    "visibility": "player",
+    "canonical_status": "design_approved",
+    "story_access_level": 0,
+    "web_search_allowed": false,
+    "requires_evidence_from": "internal_canonical_source"
+  },
+  "section_rules": [
+    {
+      "rule_id": "front_matter",
+      "selector": { "before_heading": "I. Lời mở đầu dành cho người chơi" },
+      "action": "index",
+      "story_access_level": 0,
+      "tags": ["game_overview", "onboarding"]
+    },
+    {
+      "rule_id": "opening",
+      "selector": { "heading_path": ["I. Lời mở đầu dành cho người chơi"] },
+      "action": "index",
+      "story_access_level": 0,
+      "tags": ["narrative_tone", "onboarding"]
+    },
+    {
+      "rule_id": "world_foundations",
+      "selector": { "heading_path": ["II. Thế giới quan — Ký Giới hình thành như thế nào?"] },
+      "action": "index",
+      "story_access_level": 0,
+      "tags": ["world_lore", "definitions"]
+    },
+    {
+      "rule_id": "player_identity",
+      "selector": { "heading_path": ["III. Người chơi là ai?"] },
+      "action": "index",
+      "story_access_level": 0,
+      "tags": ["player_role", "onboarding"]
+    },
+    {
+      "rule_id": "systems_rewards",
+      "selector": { "heading_path": ["IV. Hệ thống huy hiệu, vật phẩm và phần thưởng"] },
+      "action": "index",
+      "story_access_level": 0,
+      "tags": ["game_systems", "collectibles"],
+      "table_handling": "split_each_row_and_prepend_column_headers"
+    },
+    {
+      "rule_id": "core_gameplay",
+      "selector": { "heading_path": ["V. Cách chơi — Tự do khám phá, ban ngày và ban đêm"] },
+      "action": "index",
+      "story_access_level": 0,
+      "tags": ["gameplay", "safety", "accessibility"]
+    },
+    {
+      "rule_id": "day_example",
+      "selector": { "heading_path": ["VI. Ví dụ một ngày khám phá"] },
+      "action": "index",
+      "story_access_level": 0,
+      "tags": ["gameplay_example"],
+      "canonical_status": "illustrative_design"
+    },
+    {
+      "rule_id": "season_overview",
+      "selector": { "heading_path": ["VII. Cốt truyện mùa đầu — Những Ký Ức Đang Biến Mất"] },
+      "action": "index_only_matching_child_rules",
+      "story_access_level": 0,
+      "tags": ["season_1", "spoiler_controlled"]
+    },
+    {
+      "rule_id": "events_and_passport",
+      "selector": { "heading_path": ["VIII. Sự kiện và Hộ Chiếu Ký Ức"] },
+      "action": "index",
+      "story_access_level": 0,
+      "tags": ["events", "collection"],
+      "canonical_status": "illustrative_design",
+      "answer_constraint": "Do not present planned event frequency as a live operating schedule."
+    },
+    {
+      "rule_id": "nonnegotiable_principles",
+      "selector": { "heading_path": ["IX. Sáu nguyên tắc không thay đổi"] },
+      "action": "index",
+      "story_access_level": 0,
+      "tags": ["design_principles", "safety", "privacy"]
+    },
+    {
+      "rule_id": "glossary",
+      "selector": { "heading_path": ["X. Bảng giải thích các tên riêng và thuật ngữ"] },
+      "action": "index_with_table_row_overrides",
+      "story_access_level": 0,
+      "tags": ["glossary", "definitions"],
+      "table_handling": "split_each_row_and_prepend_column_headers"
+    },
+    {
+      "rule_id": "internal_decisions",
+      "selector": { "heading_path": ["XI. Trạng thái quyết định và việc cần kiểm chứng"] },
+      "action": "exclude_from_player_rag",
+      "visibility": "internal",
+      "reason": "Contains development status and unvalidated real-world/content planning, not player-facing canonical lore."
+    }
+  ],
+  "child_rules": [
+    {
+      "rule_id": "season_antagonist",
+      "parent_rule_id": "season_overview",
+      "selector": { "heading_path": ["VII. Cốt truyện mùa đầu — Những Ký Ức Đang Biến Mất", "Phản diện: Người Giữ Im Lặng"] },
+      "action": "index",
+      "story_access_level": 5,
+      "tags": ["season_1", "antagonist", "ending_spoiler"]
+    },
+    {
+      "rule_id": "season_chapter_table",
+      "parent_rule_id": "season_overview",
+      "selector": { "table_after_heading": "Phản diện: Người Giữ Im Lặng" },
+      "section_path_override": ["VII. Cốt truyện mùa đầu — Những Ký Ức Đang Biến Mất"],
+      "action": "index_table_rows_with_row_rules",
+      "tags": ["season_1", "chapter_outline"],
+      "table_handling": "one_chunk_per_data_row_with_header_context"
+    },
+    {
+      "rule_id": "diep_uc",
+      "parent_rule_id": "season_overview",
+      "selector": { "heading_path": ["VII. Cốt truyện mùa đầu — Những Ký Ức Đang Biến Mất", "Điệp Ức — tại sao lại là bướm?"] },
+      "action": "index",
+      "story_access_level": 1,
+      "tags": ["season_1", "chapter_1", "entity"]
+    },
+    {
+      "rule_id": "season_ending",
+      "parent_rule_id": "season_overview",
+      "selector": { "heading_path": ["VII. Cốt truyện mùa đầu — Những Ký Ức Đang Biến Mất", "Cái kết và danh xưng Người Kể Tiếp"] },
+      "action": "index",
+      "story_access_level": 5,
+      "tags": ["season_1", "ending_spoiler"]
+    }
+  ],
+  "table_row_rules": [
+    {
+      "rule_id": "season_chapter_1",
+      "applies_to": "season_chapter_table",
+      "row_selector": { "first_cell": "1. Những Cánh Bướm Không Trở Về" },
+      "story_access_level": 1,
+      "tags": ["season_1", "chapter_1"]
+    },
+    {
+      "rule_id": "season_chapter_2",
+      "applies_to": "season_chapter_table",
+      "row_selector": { "first_cell": "2. Những Bức Thư Chưa Được Gửi" },
+      "story_access_level": 2,
+      "tags": ["season_1", "chapter_2"]
+    },
+    {
+      "rule_id": "season_chapter_3",
+      "applies_to": "season_chapter_table",
+      "row_selector": { "first_cell": "3. Tiếng Vọng Từ Biển" },
+      "story_access_level": 3,
+      "tags": ["season_1", "chapter_3"]
+    },
+    {
+      "rule_id": "season_chapter_4",
+      "applies_to": "season_chapter_table",
+      "row_selector": { "first_cell": "4. Bàn Tay Cuối Cùng" },
+      "story_access_level": 4,
+      "tags": ["season_1", "chapter_4"]
+    },
+    {
+      "rule_id": "season_chapter_5",
+      "applies_to": "season_chapter_table",
+      "row_selector": { "first_cell": "5. Đêm Không Ai Còn Nhớ" },
+      "story_access_level": 5,
+      "tags": ["season_1", "chapter_5", "ending_spoiler"]
+    },
+    {
+      "rule_id": "glossary_diep_uc",
+      "applies_to": "glossary",
+      "row_selector": { "first_cell": "Điệp Ức" },
+      "story_access_level": 1,
+      "tags": ["glossary", "chapter_1", "entity"]
+    },
+    {
+      "rule_id": "glossary_antagonist",
+      "applies_to": "glossary",
+      "row_selector": { "first_cell": "Người Giữ Im Lặng" },
+      "story_access_level": 5,
+      "tags": ["glossary", "ending_spoiler", "antagonist"]
+    },
+    {
+      "rule_id": "glossary_final_title",
+      "applies_to": "glossary",
+      "row_selector": { "first_cell": "Người Kể Tiếp" },
+      "story_access_level": 0,
+      "tags": ["glossary", "onboarding", "public_progression"]
+    }
+  ],
+  "normalization": {
+    "unicode_normalization": "NFC",
+    "preserve_diacritics": true,
+    "search_aliases": {
+      "Ký Giới": ["Ky Gioi", "ký giới"],
+      "Dư Ức": ["Du Uc", "dư ức"],
+      "Ký Vực": ["Ky Vuc", "ký vực"],
+      "Nhịp Cộng Hưởng": ["Nhip Cong Huong", "nhịp cộng hưởng"],
+      "Người Lắng Nghe": ["Nguoi Lang Nghe", "người lắng nghe"],
+      "Mảnh Ký Ức": ["Manh Ky Uc", "mảnh ký ức"],
+      "Ấn Ký": ["An Ky", "ấn ký"],
+      "Điệp Ức": ["Diep Uc", "điệp ức"]
+    }
+  },
+  "review_checklist": [
+    "Confirm that access levels 1-5 map to Game Backend chapter/quest gates.",
+    "Confirm the antagonist name remains hidden until the final gate; Người Kể Tiếp is public onboarding information.",
+    "Confirm every DOCX table row is extracted with its column headers and the correct parent section.",
+    "Confirm Section XI remains excluded from player-facing retrieval.",
+    "Run dry-run extraction and review source spans, chunk count, metadata and unmatched selectors before enabling embeddings."
+  ]
+}

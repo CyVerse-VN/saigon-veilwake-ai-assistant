@@ -1,0 +1,1558 @@
+{
+  "report_type": "knowledge_ingestion_plan",
+  "dry_run": true,
+  "embedding_performed": false,
+  "database_write_performed": false,
+  "chunk_count": 66,
+  "chunks": [
+    {
+      "source_span": "p-0001..p-0002..p-0003..p-0004..p-0005..p-0006",
+      "chunk_ordinal": 0,
+      "content": null,
+      "content_hash": "e9134427bcff2ffa16d6b331aab6fffcd85e66c0163d81adb441f71ed82e49a0",
+      "section_path": [],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "game_overview",
+          "onboarding"
+        ]
+      },
+      "content_preview": "SAIGON: VEILWAKE BẢN CHỐT Ý TƯỞNG, THẾ GIỚI QUAN VÀ CƠ CHẾ TRÒ CHƠI Phiên bản 1.0 | 25/10/2026 | Tài liệu giới thiệu sản phẩm dành cho nhóm phát triển Explore by Day. Awaken by Night. — Ban ngày khám phá thành phố. Ban đêm đánh thức những bí mật. Saigon: Veilwake là trò chơi phi…"
+    },
+    {
+      "source_span": "p-0008..p-0009..p-0010..p-0011..p-0012..p-0013..p-0014..p-0015..p-0016",
+      "chunk_ordinal": 1,
+      "content": null,
+      "content_hash": "5df22fa375863831af82e1531cf1acac1e235a42e49a5a73dc9bea82ac96c585",
+      "section_path": [
+        "I. Lời mở đầu dành cho người chơi"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "narrative_tone",
+          "onboarding"
+        ]
+      },
+      "content_preview": "I. Lời mở đầu dành cho người chơi Người ta vẫn thường nói, Sài Gòn là thành phố không ngủ. Mỗi ngày, hàng triệu con người đi qua những con đường quen thuộc. Họ gửi những bức thư, sáng tạo món ăn, xây những công trình, làm nên những tác phẩm và để lại vô số câu chuyện. Nhưng rồi …"
+    },
+    {
+      "source_span": "p-0019..p-0020",
+      "chunk_ordinal": 2,
+      "content": null,
+      "content_hash": "c68a4f962532af778c38036bc99942654bb98237cfc6d724dda3236f01f0a958",
+      "section_path": [
+        "II. Thế giới quan — Ký Giới hình thành như thế nào?",
+        "1. Ký Giới, Dư Ức và ba điều kiện hình thành"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "world_lore",
+          "definitions"
+        ]
+      },
+      "content_preview": "II. Thế giới quan — Ký Giới hình thành như thế nào? > 1. Ký Giới, Dư Ức và ba điều kiện hình thành Ký Giới là thế giới siêu nhiên tồn tại song song với con người. Nó hình thành từ những ký ức từng có ý nghĩa sâu sắc nhưng đã đứt mạch với người có thể ghi nhớ và tiếp nối chúng. K…"
+    },
+    {
+      "source_span": "p-0022",
+      "chunk_ordinal": 3,
+      "content": null,
+      "content_hash": "6d7e68c4e65661a6732f3a2fc09ceda52e8d5a1604684d193d293660424b5b9d",
+      "section_path": [
+        "II. Thế giới quan — Ký Giới hình thành như thế nào?",
+        "2. Vì sao Ký Giới phát triển và mất cân bằng?"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "world_lore",
+          "definitions"
+        ]
+      },
+      "content_preview": "II. Thế giới quan — Ký Giới hình thành như thế nào? > 2. Vì sao Ký Giới phát triển và mất cân bằng? Ký Giới lớn dần vì thời gian làm thay đổi các thế hệ và đời sống: những câu chuyện cũ thất truyền trong khi chuyện mới liên tục xuất hiện. Nhưng tốc độ phát triển bất thường còn đ…"
+    },
+    {
+      "source_span": "p-0024..p-0025",
+      "chunk_ordinal": 4,
+      "content": null,
+      "content_hash": "9ece7c6e701e58ea55eca4b54f1974197477575b97d418ea5fdd64ce08254237",
+      "section_path": [
+        "II. Thế giới quan — Ký Giới hình thành như thế nào?",
+        "3. Ký Vực và Nhịp Cộng Hưởng"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "world_lore",
+          "definitions"
+        ]
+      },
+      "content_preview": "II. Thế giới quan — Ký Giới hình thành như thế nào? > 3. Ký Vực và Nhịp Cộng Hưởng Ký Vực là vùng nhỏ trong Ký Giới, được hình thành quanh những ký ức có liên hệ. Khi ký ức được kết nối, Ký Vực ổn định; khi bị nhốt hoặc hòa lẫn vô trật tự, nó rạn nứt. Nhịp Cộng Hưởng là quy luật…"
+    },
+    {
+      "source_span": "p-0027..p-0028",
+      "chunk_ordinal": 5,
+      "content": null,
+      "content_hash": "7d1bd6f31ec1ddbb24dc2280e6b18b66c721c11d2eb5d37edc5bc2852afd2c2d",
+      "section_path": [
+        "III. Người chơi là ai?"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "player_role",
+          "onboarding"
+        ]
+      },
+      "content_preview": "III. Người chơi là ai? Người chơi bắt đầu là du khách hoặc cư dân bình thường. Khi thật sự chú ý đến một dấu vết văn hóa và giải thử thách nhập môn, một ký ức “Đáp Lời” họ. Họ trở thành Người Lắng Nghe — người có khả năng nhìn thấy tín hiệu từ Ký Giới. Người chơi được cảm nhận m…"
+    },
+    {
+      "source_span": "t-01-r-02",
+      "chunk_ordinal": 6,
+      "content": null,
+      "content_hash": "af7d7148941c784a8709e9982270d4b42a20563d6382c2250047435a4c6ccccc",
+      "section_path": [
+        "IV. Hệ thống huy hiệu, vật phẩm và phần thưởng"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "game_systems",
+          "collectibles"
+        ]
+      },
+      "content_preview": "IV. Hệ thống huy hiệu, vật phẩm và phần thưởng Tên: Huy Hiệu Địa Danh Cách nhận hoặc mở: Hoàn thành thử thách tại địa điểm Vai trò: Kỷ niệm khám phá có ảnh/video riêng"
+    },
+    {
+      "source_span": "t-01-r-03",
+      "chunk_ordinal": 7,
+      "content": null,
+      "content_hash": "cb80bc7664d7312b02f03a7568c66603c20df53b3915d665f67874a83d9cfcf4",
+      "section_path": [
+        "IV. Hệ thống huy hiệu, vật phẩm và phần thưởng"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "game_systems",
+          "collectibles"
+        ]
+      },
+      "content_preview": "IV. Hệ thống huy hiệu, vật phẩm và phần thưởng Tên: Đại Huy Hiệu Cách nhận hoặc mở: Hoàn thành bộ huy hiệu chủ đề Vai trò: Thành tựu bổ sung; mở chuyện và nội dung đặc biệt"
+    },
+    {
+      "source_span": "t-01-r-04",
+      "chunk_ordinal": 8,
+      "content": null,
+      "content_hash": "9bcaa973c8670c6922c401f720703e499d0ba00dd3cc6e985b2b536324efe687",
+      "section_path": [
+        "IV. Hệ thống huy hiệu, vật phẩm và phần thưởng"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "game_systems",
+          "collectibles"
+        ]
+      },
+      "content_preview": "IV. Hệ thống huy hiệu, vật phẩm và phần thưởng Tên: Mảnh Ký Ức Cách nhận hoặc mở: Khôi phục một mối liên hệ văn hóa hoặc câu chuyện Vai trò: Cộng hưởng, giúp nhận ra Ấn Ký và giải án"
+    },
+    {
+      "source_span": "t-01-r-05",
+      "chunk_ordinal": 9,
+      "content": null,
+      "content_hash": "bd8791f3144d3152aafb508836cc11628a97a5a673d8f7308abc3d635cabbb18",
+      "section_path": [
+        "IV. Hệ thống huy hiệu, vật phẩm và phần thưởng"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "game_systems",
+          "collectibles"
+        ]
+      },
+      "content_preview": "IV. Hệ thống huy hiệu, vật phẩm và phần thưởng Tên: Ấn Ký Cách nhận hoặc mở: Có mảnh phù hợp, tìm đúng nơi, giải thử thách Vai trò: Dấu phong ấn mở vụ án và cảnh AR"
+    },
+    {
+      "source_span": "t-01-r-06",
+      "chunk_ordinal": 10,
+      "content": null,
+      "content_hash": "77f55961f8ffe52697bc2e7f53c33b18a0ab2dbcf069c4cd339b655ccca274e2",
+      "section_path": [
+        "IV. Hệ thống huy hiệu, vật phẩm và phần thưởng"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "game_systems",
+          "collectibles"
+        ]
+      },
+      "content_preview": "IV. Hệ thống huy hiệu, vật phẩm và phần thưởng Tên: Cảnh Ký Ức Cách nhận hoặc mở: Giải quyết vụ án và nối lại ký ức Vai trò: Trải nghiệm AR đẹp, chụp ảnh, xem lại; không phải tiền tệ"
+    },
+    {
+      "source_span": "p-0031..p-0032",
+      "chunk_ordinal": 11,
+      "content": null,
+      "content_hash": "dd9c38114df0a72d989b07335d0f7dd0c67560e5cfecb2d45d174443ac11f327",
+      "section_path": [
+        "IV. Hệ thống huy hiệu, vật phẩm và phần thưởng",
+        "1. Huy hiệu do chính người chơi tạo nên"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "game_systems",
+          "collectibles"
+        ]
+      },
+      "content_preview": "IV. Hệ thống huy hiệu, vật phẩm và phần thưởng > 1. Huy hiệu do chính người chơi tạo nên Mỗi huy hiệu có logo địa điểm tại góc trái, ảnh hoặc video do người chơi chọn ở giữa, khung trang trí, tên địa danh, ngày khám phá và dấu xác nhận thành tựu. Ảnh/video thể hiện cá tính; việc…"
+    },
+    {
+      "source_span": "p-0034..p-0035",
+      "chunk_ordinal": 12,
+      "content": null,
+      "content_hash": "f64212a0d803d6910bc2c12e8ab2b5c9853db4e7d4abdfe5b275abf92d0ff5ac",
+      "section_path": [
+        "IV. Hệ thống huy hiệu, vật phẩm và phần thưởng",
+        "2. Huy hiệu tiến hóa và Đại Huy Hiệu"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "game_systems",
+          "collectibles"
+        ]
+      },
+      "content_preview": "IV. Hệ thống huy hiệu, vật phẩm và phần thưởng > 2. Huy hiệu tiến hóa và Đại Huy Hiệu Huy hiệu có thể được mở thêm khung, hoạt cảnh, hoa văn hoặc hiệu ứng AR khi hoàn thành bộ sưu tập hoặc vụ án liên quan. Tiến hóa chỉ thay đổi hình thức và nội dung kỷ niệm, không tăng chỉ số ch…"
+    },
+    {
+      "source_span": "t-02-r-02",
+      "chunk_ordinal": 13,
+      "content": null,
+      "content_hash": "b6909d250881f88bf6128b17ec3c78f4ca76072ade0061b1a53b79861830b53e",
+      "section_path": [
+        "IV. Hệ thống huy hiệu, vật phẩm và phần thưởng",
+        "3. Huy hiệu đa dạng và độ hiếm"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "game_systems",
+          "collectibles"
+        ]
+      },
+      "content_preview": "IV. Hệ thống huy hiệu, vật phẩm và phần thưởng > 3. Huy hiệu đa dạng và độ hiếm Cách tìm: Khám phá Ví dụ hoạt động: Đến điểm đến và hoàn thành thử thách"
+    },
+    {
+      "source_span": "t-02-r-03",
+      "chunk_ordinal": 14,
+      "content": null,
+      "content_hash": "612d4ccd926144f61ea74ef16b7260065b97d6017c700f7265f381296faec5d1",
+      "section_path": [
+        "IV. Hệ thống huy hiệu, vật phẩm và phần thưởng",
+        "3. Huy hiệu đa dạng và độ hiếm"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "game_systems",
+          "collectibles"
+        ]
+      },
+      "content_preview": "IV. Hệ thống huy hiệu, vật phẩm và phần thưởng > 3. Huy hiệu đa dạng và độ hiếm Cách tìm: Quan sát Ví dụ hoạt động: Tìm một chi tiết kiến trúc hoặc cảnh quan"
+    },
+    {
+      "source_span": "t-02-r-04",
+      "chunk_ordinal": 15,
+      "content": null,
+      "content_hash": "2c8d2557032c10aa985a0b059ce8c767a52a6540d0c900a60bbca0b176fa7b57",
+      "section_path": [
+        "IV. Hệ thống huy hiệu, vật phẩm và phần thưởng",
+        "3. Huy hiệu đa dạng và độ hiếm"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "game_systems",
+          "collectibles"
+        ]
+      },
+      "content_preview": "IV. Hệ thống huy hiệu, vật phẩm và phần thưởng > 3. Huy hiệu đa dạng và độ hiếm Cách tìm: Ẩm thực Ví dụ hoạt động: Hiểu món ăn hoặc khu ẩm thực, không ép mua hàng"
+    },
+    {
+      "source_span": "t-02-r-05",
+      "chunk_ordinal": 16,
+      "content": null,
+      "content_hash": "a99a9aa31435aafd97e6979f56da090a9574cac3261ae7a19e31bdd0bcde608f",
+      "section_path": [
+        "IV. Hệ thống huy hiệu, vật phẩm và phần thưởng",
+        "3. Huy hiệu đa dạng và độ hiếm"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "game_systems",
+          "collectibles"
+        ]
+      },
+      "content_preview": "IV. Hệ thống huy hiệu, vật phẩm và phần thưởng > 3. Huy hiệu đa dạng và độ hiếm Cách tìm: Khoảnh khắc Ví dụ hoạt động: Ghi lại cảnh đẹp tại thời điểm phù hợp"
+    },
+    {
+      "source_span": "t-02-r-06",
+      "chunk_ordinal": 17,
+      "content": null,
+      "content_hash": "ffd462d8988591acd3e2a9c16713b9116a60fa7dbb114873ac8f4dcc036efcd7",
+      "section_path": [
+        "IV. Hệ thống huy hiệu, vật phẩm và phần thưởng",
+        "3. Huy hiệu đa dạng và độ hiếm"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "game_systems",
+          "collectibles"
+        ]
+      },
+      "content_preview": "IV. Hệ thống huy hiệu, vật phẩm và phần thưởng > 3. Huy hiệu đa dạng và độ hiếm Cách tìm: Bí mật Ví dụ hoạt động: Lần theo manh mối, không biết sẵn tọa độ"
+    },
+    {
+      "source_span": "t-02-r-07",
+      "chunk_ordinal": 18,
+      "content": null,
+      "content_hash": "8fd9eafa3a8ee4b3e13d50ee351e77e8d3b1a89c9c556052788df49d8bd4d30a",
+      "section_path": [
+        "IV. Hệ thống huy hiệu, vật phẩm và phần thưởng",
+        "3. Huy hiệu đa dạng và độ hiếm"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "game_systems",
+          "collectibles"
+        ]
+      },
+      "content_preview": "IV. Hệ thống huy hiệu, vật phẩm và phần thưởng > 3. Huy hiệu đa dạng và độ hiếm Cách tìm: Đồng đội Ví dụ hoạt động: Phối hợp giải đố, có phương án chơi một mình"
+    },
+    {
+      "source_span": "t-02-r-08",
+      "chunk_ordinal": 19,
+      "content": null,
+      "content_hash": "06c46aacbe568df6842134b406aa03a6d02811ebef9be6e45774584a9234dffe",
+      "section_path": [
+        "IV. Hệ thống huy hiệu, vật phẩm và phần thưởng",
+        "3. Huy hiệu đa dạng và độ hiếm"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "game_systems",
+          "collectibles"
+        ]
+      },
+      "content_preview": "IV. Hệ thống huy hiệu, vật phẩm và phần thưởng > 3. Huy hiệu đa dạng và độ hiếm Cách tìm: Sự kiện Ví dụ hoạt động: Tham gia chương trình mùa hoặc lễ hội"
+    },
+    {
+      "source_span": "t-02-r-09",
+      "chunk_ordinal": 20,
+      "content": null,
+      "content_hash": "5e0f81d81ba2513f9075cebc502ad9f85e87f958ed739061c8d24b4258a9c1e5",
+      "section_path": [
+        "IV. Hệ thống huy hiệu, vật phẩm và phần thưởng",
+        "3. Huy hiệu đa dạng và độ hiếm"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "game_systems",
+          "collectibles"
+        ]
+      },
+      "content_preview": "IV. Hệ thống huy hiệu, vật phẩm và phần thưởng > 3. Huy hiệu đa dạng và độ hiếm Cách tìm: Huyền bí Ví dụ hoạt động: Giải phong ấn hay vụ án Ký Giới"
+    },
+    {
+      "source_span": "p-0037",
+      "chunk_ordinal": 21,
+      "content": null,
+      "content_hash": "2062e361f4c63cca7fe80ee8f22ab1602eace19355882da00d37ec5a5f3eb112",
+      "section_path": [
+        "IV. Hệ thống huy hiệu, vật phẩm và phần thưởng",
+        "3. Huy hiệu đa dạng và độ hiếm"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "game_systems",
+          "collectibles"
+        ]
+      },
+      "content_preview": "IV. Hệ thống huy hiệu, vật phẩm và phần thưởng > 3. Huy hiệu đa dạng và độ hiếm Độ hiếm gồm Phổ thông, Đặc biệt, Hiếm và Giới hạn. “Hiếm” có thể đến từ suy luận và nỗ lực, không chỉ khung giờ khó tham dự. Huy hiệu sự kiện có thể mang dấu năm đặc biệt, nhưng bỏ lỡ nó không được k…"
+    },
+    {
+      "source_span": "p-0039",
+      "chunk_ordinal": 22,
+      "content": null,
+      "content_hash": "47d930e6b225a47b0f938f38dd2e1601232554104d4b6d4a09957364f8b29b92",
+      "section_path": [
+        "IV. Hệ thống huy hiệu, vật phẩm và phần thưởng",
+        "4. Mảnh Ký Ức và ba sắc thái của vùng đất"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "game_systems",
+          "collectibles"
+        ]
+      },
+      "content_preview": "IV. Hệ thống huy hiệu, vật phẩm và phần thưởng > 4. Mảnh Ký Ức và ba sắc thái của vùng đất Mảnh Ký Ức không phải đồng tiền để nhặt. Người chơi phải phát hiện một dấu vết thật và hiểu được ý nghĩa của nó qua quan sát, đối chiếu, hoạt động mô phỏng hoặc câu đố có căn cứ. Ba nhóm c…"
+    },
+    {
+      "source_span": "p-0041..p-0042",
+      "chunk_ordinal": 23,
+      "content": null,
+      "content_hash": "966807f97c98d0dcd73f79034c9827ea637fbf5faebd4054d6e118ca827ad910",
+      "section_path": [
+        "IV. Hệ thống huy hiệu, vật phẩm và phần thưởng",
+        "5. Ấn Ký và Cảnh Ký Ức"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "game_systems",
+          "collectibles"
+        ]
+      },
+      "content_preview": "IV. Hệ thống huy hiệu, vật phẩm và phần thưởng > 5. Ấn Ký và Cảnh Ký Ức Ấn Ký là dấu phong ấn các Người Canh Giữ từng dùng để cố định Ký Vực. Chúng có ba trạng thái: Ngủ yên (chưa đủ ký ức), Cộng hưởng (đã có những mảnh thích hợp, lộ manh mối), Thức tỉnh (đúng điều kiện thời gia…"
+    },
+    {
+      "source_span": "p-0045..p-0046..p-0047..p-0048",
+      "chunk_ordinal": 24,
+      "content": null,
+      "content_hash": "1a2d2e6db188b450ef68d23eeb40277e848952a7a5bb345eeecc2281569c2590",
+      "section_path": [
+        "V. Cách chơi — Tự do khám phá, ban ngày và ban đêm",
+        "1. Ba cách tiếp cận trò chơi"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "gameplay",
+          "safety",
+          "accessibility"
+        ]
+      },
+      "content_preview": "V. Cách chơi — Tự do khám phá, ban ngày và ban đêm > 1. Ba cách tiếp cận trò chơi Tự Do Lang Thang: đi đâu tùy thích; trò chơi chỉ gợi ý hoạt động gần bạn khi được cho phép. Hành Trình Gợi Ý: chọn sở thích, thời gian, ngân sách để nhận tuyến ẩm thực, kiến trúc, cảnh quan hoặc ng…"
+    },
+    {
+      "source_span": "p-0050..p-0051..p-0052",
+      "chunk_ordinal": 25,
+      "content": null,
+      "content_hash": "15f54db5071d5f0eeb147bf447c88c04bb38a3fffc717db3ccc0380b31352003",
+      "section_path": [
+        "V. Cách chơi — Tự do khám phá, ban ngày và ban đêm",
+        "2. Ban ngày — Hành Trình Truy Ức"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "gameplay",
+          "safety",
+          "accessibility"
+        ]
+      },
+      "content_preview": "V. Cách chơi — Tự do khám phá, ban ngày và ban đêm > 2. Ban ngày — Hành Trình Truy Ức Ba lớp trải nghiệm: (1) khám phá địa điểm thật, (2) làm thử thách dựa trên văn hóa hoặc cảnh quan thật, (3) nhận huy hiệu và tự lưu kỷ niệm. Một chuỗi thử thách có thể dẫn đến Mảnh Ký Ức và man…"
+    },
+    {
+      "source_span": "p-0054..p-0055",
+      "chunk_ordinal": 26,
+      "content": null,
+      "content_hash": "ecb4919e45b787a42652cb12eb634003f1bbda2dc159c5d6f8cbd4854bde82df",
+      "section_path": [
+        "V. Cách chơi — Tự do khám phá, ban ngày và ban đêm",
+        "3. Ban đêm — Đêm Ký Giới"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "gameplay",
+          "safety",
+          "accessibility"
+        ]
+      },
+      "content_preview": "V. Cách chơi — Tự do khám phá, ban ngày và ban đêm > 3. Ban đêm — Đêm Ký Giới Người chơi sử dụng Mảnh Ký Ức để dò Ấn Ký, đi đến điểm tương tác an toàn, mở camera AR, gặp nhân vật siêu nhiên, thu chứng cứ, ghép dữ kiện và kết luận vụ án. Nếu điều tra thành công, Ký Vực được khôi …"
+    },
+    {
+      "source_span": "p-0057",
+      "chunk_ordinal": 27,
+      "content": null,
+      "content_hash": "930bb5f750ce495cf31a65eed1f54270ac6c6a5b03085289172129497b68e56b",
+      "section_path": [
+        "V. Cách chơi — Tự do khám phá, ban ngày và ban đêm",
+        "4. Không ngắt quãng chuyến đi"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "gameplay",
+          "safety",
+          "accessibility"
+        ]
+      },
+      "content_preview": "V. Cách chơi — Tự do khám phá, ban ngày và ban đêm > 4. Không ngắt quãng chuyến đi Nếu chưa đến tối, người chơi có thể tiếp tục tham quan, sưu tầm và suy luận trên hồ sơ. Nếu bỏ lỡ sự kiện, câu chuyện chính vẫn tiếp tục được. Người chỉ du lịch một ngày có vụ án ngắn khép kín; cư…"
+    },
+    {
+      "source_span": "p-0059..p-0060..p-0061..p-0062..p-0063",
+      "chunk_ordinal": 28,
+      "content": null,
+      "content_hash": "370c0a53d5546a13d71fc66fe2b3de49cf493f7a7beba4da45ef1781ed9297c0",
+      "section_path": [
+        "VI. Ví dụ một ngày khám phá"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "illustrative_design",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "gameplay_example"
+        ]
+      },
+      "content_preview": "VI. Ví dụ một ngày khám phá Buổi sáng: nhóm bạn đến cụm địa điểm văn hóa trong trung tâm, nhận huy hiệu Bưu điện và một huy hiệu khác sau những thử thách quan sát. Buổi chiều: cả nhóm muốn ăn và chụp ảnh, nhận gợi ý gần đường đi; một thử thách văn hóa ẩm thực mở manh mối và Mảnh…"
+    },
+    {
+      "source_span": "p-0066",
+      "chunk_ordinal": 29,
+      "content": null,
+      "content_hash": "93d05738259a98ee3ffc0649c6649cc25317bc54e62db6f87170986dcb787511",
+      "section_path": [
+        "VII. Cốt truyện mùa đầu — Những Ký Ức Đang Biến Mất",
+        "Phản diện: Người Giữ Im Lặng"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 5,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "season_1",
+          "antagonist",
+          "ending_spoiler"
+        ]
+      },
+      "content_preview": "VII. Cốt truyện mùa đầu — Những Ký Ức Đang Biến Mất > Phản diện: Người Giữ Im Lặng Từng là một Người Lắng Nghe, người này đã chứng kiến một Ký Vực biến mất. Sợ con người mãi lãng quên, họ quyết định phong ấn tất cả ký ức vĩnh viễn. Ý định là bảo vệ nhưng cách làm khiến Ký Giới m…"
+    },
+    {
+      "source_span": "t-03-r-02",
+      "chunk_ordinal": 30,
+      "content": null,
+      "content_hash": "7f6f7e27cbb6fd4a1a42b3cbc25fe42044c1dc80dc1b700b63ce6149f99f9d82",
+      "section_path": [
+        "VII. Cốt truyện mùa đầu — Những Ký Ức Đang Biến Mất"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 1,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "season_1",
+          "chapter_1"
+        ]
+      },
+      "content_preview": "VII. Cốt truyện mùa đầu — Những Ký Ức Đang Biến Mất Chương: 1. Những Cánh Bướm Không Trở Về Bí ẩn chính: Điệp Ức mất tích do một phong ấn sai lệch Nội dung địa phương: Khởi đầu Sài Gòn"
+    },
+    {
+      "source_span": "t-03-r-03",
+      "chunk_ordinal": 31,
+      "content": null,
+      "content_hash": "4af77e6e851402711193e76aa0ec53e32755fd05b9c2b7b9d8b18f9784e684d4",
+      "section_path": [
+        "VII. Cốt truyện mùa đầu — Những Ký Ức Đang Biến Mất"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 2,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "season_1",
+          "chapter_2"
+        ]
+      },
+      "content_preview": "VII. Cốt truyện mùa đầu — Những Ký Ức Đang Biến Mất Chương: 2. Những Bức Thư Chưa Được Gửi Bí ẩn chính: Thông điệp thất lạc và biểu tượng bí mật Nội dung địa phương: Đô thị, kiến trúc, liên lạc"
+    },
+    {
+      "source_span": "t-03-r-04",
+      "chunk_ordinal": 32,
+      "content": null,
+      "content_hash": "0105c0c2c3ac207a9454eb9788bf51796217ff66007f27cabbf8e7fac8e74468",
+      "section_path": [
+        "VII. Cốt truyện mùa đầu — Những Ký Ức Đang Biến Mất"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 3,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "season_1",
+          "chapter_3"
+        ]
+      },
+      "content_preview": "VII. Cốt truyện mùa đầu — Những Ký Ức Đang Biến Mất Chương: 3. Tiếng Vọng Từ Biển Bí ẩn chính: Tín hiệu lạ từ Ký Vực biển Nội dung địa phương: Vũng Tàu, nghề biển, hải trình"
+    },
+    {
+      "source_span": "t-03-r-05",
+      "chunk_ordinal": 33,
+      "content": null,
+      "content_hash": "a777e130cd7dfd011013b31cbb0c18a6edc6eec69ef6fb8a09ef9687bbda9b05",
+      "section_path": [
+        "VII. Cốt truyện mùa đầu — Những Ký Ức Đang Biến Mất"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 4,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "season_1",
+          "chapter_4"
+        ]
+      },
+      "content_preview": "VII. Cốt truyện mùa đầu — Những Ký Ức Đang Biến Mất Chương: 4. Bàn Tay Cuối Cùng Bí ẩn chính: Một kỹ nghệ thất truyền và động cơ phản diện Nội dung địa phương: Bình Dương, gốm, sơn mài"
+    },
+    {
+      "source_span": "t-03-r-06",
+      "chunk_ordinal": 34,
+      "content": null,
+      "content_hash": "9fd1d058c932dcd052da5753a8cdd1973c5c557ef4cc7ad910286eeab9dec669",
+      "section_path": [
+        "VII. Cốt truyện mùa đầu — Những Ký Ức Đang Biến Mất"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 5,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "season_1",
+          "chapter_5",
+          "ending_spoiler"
+        ]
+      },
+      "content_preview": "VII. Cốt truyện mùa đầu — Những Ký Ức Đang Biến Mất Chương: 5. Đêm Không Ai Còn Nhớ Bí ẩn chính: Quyết định số phận các phong ấn Nội dung địa phương: Liên kết ba bản sắc"
+    },
+    {
+      "source_span": "p-0068",
+      "chunk_ordinal": 35,
+      "content": null,
+      "content_hash": "7ec4859c605b9280c4acc6bbf11fe1cb16523a3f79047d7702370fe71c0e3e81",
+      "section_path": [
+        "VII. Cốt truyện mùa đầu — Những Ký Ức Đang Biến Mất",
+        "Điệp Ức — tại sao lại là bướm?"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 1,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "season_1",
+          "chapter_1",
+          "entity"
+        ]
+      },
+      "content_preview": "VII. Cốt truyện mùa đầu — Những Ký Ức Đang Biến Mất > Điệp Ức — tại sao lại là bướm? Điệp Ức là sinh vật hình bướm được hình thành từ ký ức từng được truyền qua nhiều người. Đôi cánh mang nét chữ, hoa văn và sắc màu của câu chuyện; khi việc truyền lại bị ngăn, màu cánh phai dần.…"
+    },
+    {
+      "source_span": "p-0070..p-0071..p-0072",
+      "chunk_ordinal": 36,
+      "content": null,
+      "content_hash": "7980d99ba9a250f023bee450b8b3914668f957085ded82425a40886c37d71a2d",
+      "section_path": [
+        "VII. Cốt truyện mùa đầu — Những Ký Ức Đang Biến Mất",
+        "Cái kết và danh xưng Người Kể Tiếp"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 5,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "season_1",
+          "ending_spoiler"
+        ]
+      },
+      "content_preview": "VII. Cốt truyện mùa đầu — Những Ký Ức Đang Biến Mất > Cái kết và danh xưng Người Kể Tiếp Cuối mùa, Người Giữ Im Lặng đề nghị phong ấn mãi Ký Giới. Người chơi khám phá con đường thứ ba: nối ký ức trở lại với người đang sống, cho phép được kể, học và sáng tạo tiếp. Ký Giới cân bằn…"
+    },
+    {
+      "source_span": "t-04-r-02",
+      "chunk_ordinal": 37,
+      "content": null,
+      "content_hash": "98bd40f6c5fd2e16a1cb35c83ef3d61c630b01c50e3eb0124c14bb12df19cce3",
+      "section_path": [
+        "VIII. Sự kiện và Hộ Chiếu Ký Ức"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "illustrative_design",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "events",
+          "collection"
+        ]
+      },
+      "content_preview": "VIII. Sự kiện và Hộ Chiếu Ký Ức Sự kiện: Đêm Ký Giới Tần suất dự kiến: Các tối Mục đích: Vụ án ngắn, mở Ấn Ký"
+    },
+    {
+      "source_span": "t-04-r-03",
+      "chunk_ordinal": 38,
+      "content": null,
+      "content_hash": "082f1293a57a83e89358e04ed8f99f10cd8c08158debe7dd22b3a91a04f6c7e9",
+      "section_path": [
+        "VIII. Sự kiện và Hộ Chiếu Ký Ức"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "illustrative_design",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "events",
+          "collection"
+        ]
+      },
+      "content_preview": "VIII. Sự kiện và Hộ Chiếu Ký Ức Sự kiện: Đêm Cộng Hưởng Tần suất dự kiến: Cuối tuần Mục đích: Vụ án nhóm, huy hiệu hiếm"
+    },
+    {
+      "source_span": "t-04-r-04",
+      "chunk_ordinal": 39,
+      "content": null,
+      "content_hash": "0e418e6c7cc5b6cc9604c151000729b664a492c8823eb050064268b0159da663",
+      "section_path": [
+        "VIII. Sự kiện và Hộ Chiếu Ký Ức"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "illustrative_design",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "events",
+          "collection"
+        ]
+      },
+      "content_preview": "VIII. Sự kiện và Hộ Chiếu Ký Ức Sự kiện: Đại Thức Tỉnh Tần suất dự kiến: Theo mùa Mục đích: Câu chuyện lớn, cảnh AR mới"
+    },
+    {
+      "source_span": "t-04-r-05",
+      "chunk_ordinal": 40,
+      "content": null,
+      "content_hash": "d3c36f313106fc91e074181179b380d3267f8001bdbb737b2da213cae5499f44",
+      "section_path": [
+        "VIII. Sự kiện và Hộ Chiếu Ký Ức"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "illustrative_design",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "events",
+          "collection"
+        ]
+      },
+      "content_preview": "VIII. Sự kiện và Hộ Chiếu Ký Ức Sự kiện: Hành Trình Kỷ Niệm Tần suất dự kiến: Dịp đặc biệt Mục đích: Bộ sưu tập có dấu thời gian"
+    },
+    {
+      "source_span": "p-0074..p-0075",
+      "chunk_ordinal": 41,
+      "content": null,
+      "content_hash": "daca1c9179ec4bf74ff090882edbf481cffe1de5d8bcf7b44941534ed5cd01cc",
+      "section_path": [
+        "VIII. Sự kiện và Hộ Chiếu Ký Ức"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "illustrative_design",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "events",
+          "collection"
+        ]
+      },
+      "content_preview": "VIII. Sự kiện và Hộ Chiếu Ký Ức Đây là lịch thiết kế dự kiến, chưa phải lịch vận hành cam kết. Trò chơi cần tôn trọng người bỏ lỡ sự kiện; không để hoạt động giới hạn chặn mạch truyện chính. Hộ Chiếu Ký Ức là album lâu dài: nơi đã đến, huy hiệu và ảnh/video, Đại Huy Hiệu, Mảnh K…"
+    },
+    {
+      "source_span": "p-0077..p-0078..p-0079..p-0080..p-0081..p-0082",
+      "chunk_ordinal": 42,
+      "content": null,
+      "content_hash": "5f42fe74f4e0612e03014a627527b1e5877f2672a04adb5cdc76e40da767da0c",
+      "section_path": [
+        "IX. Sáu nguyên tắc không thay đổi"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "design_principles",
+          "safety",
+          "privacy"
+        ]
+      },
+      "content_preview": "IX. Sáu nguyên tắc không thay đổi Huy hiệu chứng nhận khám phá, không đánh giá khả năng chụp ảnh. Người chơi được tự do khám phá, không bắt theo một tuyến duy nhất. Độ hiếm có ý nghĩa do thử thách hoặc kỷ niệm, không tạo áp lực tham gia liên tục. AR gắn với sưu tầm, câu chuyện v…"
+    },
+    {
+      "source_span": "t-05-r-02",
+      "chunk_ordinal": 43,
+      "content": null,
+      "content_hash": "13f4f0e1db037461b451a13718556081e1b3216efe0eb9cdc4f8aead6f388d8e",
+      "section_path": [
+        "X. Bảng giải thích các tên riêng và thuật ngữ"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "glossary",
+          "definitions"
+        ]
+      },
+      "content_preview": "X. Bảng giải thích các tên riêng và thuật ngữ Thuật ngữ: Veilwake Giải thích: Tên trò chơi, gợi tấm màn giữa hai thế giới thức tỉnh"
+    },
+    {
+      "source_span": "t-05-r-03",
+      "chunk_ordinal": 44,
+      "content": null,
+      "content_hash": "e26a1a17a69d09169971269e08986e483462fe5cc3e9c168e569db816280ffee",
+      "section_path": [
+        "X. Bảng giải thích các tên riêng và thuật ngữ"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "glossary",
+          "definitions"
+        ]
+      },
+      "content_preview": "X. Bảng giải thích các tên riêng và thuật ngữ Thuật ngữ: Ký Giới Giải thích: Thế giới hình thành từ những ký ức đứt mạch"
+    },
+    {
+      "source_span": "t-05-r-04",
+      "chunk_ordinal": 45,
+      "content": null,
+      "content_hash": "18ab4c134617773e51e474499d21ca31bc4577938ac441d52bfdcdead92d18f3",
+      "section_path": [
+        "X. Bảng giải thích các tên riêng và thuật ngữ"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "glossary",
+          "definitions"
+        ]
+      },
+      "content_preview": "X. Bảng giải thích các tên riêng và thuật ngữ Thuật ngữ: Dư Ức Giải thích: Phần ý nghĩa còn lại của ký ức bị bỏ quên"
+    },
+    {
+      "source_span": "t-05-r-05",
+      "chunk_ordinal": 46,
+      "content": null,
+      "content_hash": "73e9ecbd182c21b7fc37bb5a3b01757b5bdbaa1a9fe2c02f97b6734d29d0e576",
+      "section_path": [
+        "X. Bảng giải thích các tên riêng và thuật ngữ"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "glossary",
+          "definitions"
+        ]
+      },
+      "content_preview": "X. Bảng giải thích các tên riêng và thuật ngữ Thuật ngữ: Ký Vực Giải thích: Một vùng trong Ký Giới"
+    },
+    {
+      "source_span": "t-05-r-06",
+      "chunk_ordinal": 47,
+      "content": null,
+      "content_hash": "0a10610063e520870e3ffc2657f8e7c3b0f8227a8b3a6f44780126443c6f4191",
+      "section_path": [
+        "X. Bảng giải thích các tên riêng và thuật ngữ"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "glossary",
+          "definitions"
+        ]
+      },
+      "content_preview": "X. Bảng giải thích các tên riêng và thuật ngữ Thuật ngữ: Nhịp Cộng Hưởng Giải thích: Quy luật làm dấu vết hiện rõ khác nhau giữa ngày và đêm"
+    },
+    {
+      "source_span": "t-05-r-07",
+      "chunk_ordinal": 48,
+      "content": null,
+      "content_hash": "6c8ccab3441714d7f6eabe5cb825847babad79c0f3a0877239ba05d43495a6eb",
+      "section_path": [
+        "X. Bảng giải thích các tên riêng và thuật ngữ"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "glossary",
+          "definitions"
+        ]
+      },
+      "content_preview": "X. Bảng giải thích các tên riêng và thuật ngữ Thuật ngữ: Người Lắng Nghe Giải thích: Vai trò khởi đầu sau khi được Ký Giới Đáp Lời"
+    },
+    {
+      "source_span": "t-05-r-08",
+      "chunk_ordinal": 49,
+      "content": null,
+      "content_hash": "04b343e991672ab95614a4d6190e447ee63b40dbec5deb6a28c0c0c88b05a784",
+      "section_path": [
+        "X. Bảng giải thích các tên riêng và thuật ngữ"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "glossary",
+          "definitions"
+        ]
+      },
+      "content_preview": "X. Bảng giải thích các tên riêng và thuật ngữ Thuật ngữ: Đáp Lời Giải thích: Khoảnh khắc ký ức phản hồi người chơi"
+    },
+    {
+      "source_span": "t-05-r-09",
+      "chunk_ordinal": 50,
+      "content": null,
+      "content_hash": "e9c203eae976d26ce1bb9e2aeda52f087cd6a178891e315338a074393ac1b209",
+      "section_path": [
+        "X. Bảng giải thích các tên riêng và thuật ngữ"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "glossary",
+          "definitions"
+        ]
+      },
+      "content_preview": "X. Bảng giải thích các tên riêng và thuật ngữ Thuật ngữ: Hành Trình Truy Ức Giải thích: Hoạt động khám phá ban ngày"
+    },
+    {
+      "source_span": "t-05-r-10",
+      "chunk_ordinal": 51,
+      "content": null,
+      "content_hash": "caf098f3c413524741f30ca61e43c2c5d40318ec15a8d88ed920d39ee8d130eb",
+      "section_path": [
+        "X. Bảng giải thích các tên riêng và thuật ngữ"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "glossary",
+          "definitions"
+        ]
+      },
+      "content_preview": "X. Bảng giải thích các tên riêng và thuật ngữ Thuật ngữ: Huy Hiệu Địa Danh Giải thích: Kỷ niệm khám phá có ảnh/video riêng"
+    },
+    {
+      "source_span": "t-05-r-11",
+      "chunk_ordinal": 52,
+      "content": null,
+      "content_hash": "8174da8cc01bc8500eeff957d5f7e2a746655622395c8224b2bffb00c1d64c9d",
+      "section_path": [
+        "X. Bảng giải thích các tên riêng và thuật ngữ"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "glossary",
+          "definitions"
+        ]
+      },
+      "content_preview": "X. Bảng giải thích các tên riêng và thuật ngữ Thuật ngữ: Đại Huy Hiệu Giải thích: Thành tựu ghép đủ bộ huy hiệu"
+    },
+    {
+      "source_span": "t-05-r-12",
+      "chunk_ordinal": 53,
+      "content": null,
+      "content_hash": "b990a11107b7a0561ae29374b8d6da63a086e8337cdd0d324a7643c6a8c37ba0",
+      "section_path": [
+        "X. Bảng giải thích các tên riêng và thuật ngữ"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "glossary",
+          "definitions"
+        ]
+      },
+      "content_preview": "X. Bảng giải thích các tên riêng và thuật ngữ Thuật ngữ: Huy hiệu tiến hóa Giải thích: Mở thêm khung và hiệu ứng cho huy hiệu cũ"
+    },
+    {
+      "source_span": "t-05-r-13",
+      "chunk_ordinal": 54,
+      "content": null,
+      "content_hash": "fcde089765cd3bd71ecd90e508d8195cbd8d3ff4fd68349ef0c4f94484e1e5c4",
+      "section_path": [
+        "X. Bảng giải thích các tên riêng và thuật ngữ"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "glossary",
+          "definitions"
+        ]
+      },
+      "content_preview": "X. Bảng giải thích các tên riêng và thuật ngữ Thuật ngữ: Mảnh Ký Ức Giải thích: Vật phẩm ghi dấu ý nghĩa đã khôi phục"
+    },
+    {
+      "source_span": "t-05-r-14",
+      "chunk_ordinal": 55,
+      "content": null,
+      "content_hash": "43f6b4b7a6eabd0b8b869e9f510e6d090460965e088b7474bea9add9fcd1c9e3",
+      "section_path": [
+        "X. Bảng giải thích các tên riêng và thuật ngữ"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "glossary",
+          "definitions"
+        ]
+      },
+      "content_preview": "X. Bảng giải thích các tên riêng và thuật ngữ Thuật ngữ: Ấn Ký Giải thích: Dấu phong ấn liên kết hai thế giới"
+    },
+    {
+      "source_span": "t-05-r-15",
+      "chunk_ordinal": 56,
+      "content": null,
+      "content_hash": "88530adbf75cf4f148bb5ba16cabf7ac3a492d4a4fa7c2d9b33c88c62724bb2d",
+      "section_path": [
+        "X. Bảng giải thích các tên riêng và thuật ngữ"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "glossary",
+          "definitions"
+        ]
+      },
+      "content_preview": "X. Bảng giải thích các tên riêng và thuật ngữ Thuật ngữ: Hồ Sơ Bí Ẩn Giải thích: Vụ án có chứng cứ và lời giải"
+    },
+    {
+      "source_span": "t-05-r-16",
+      "chunk_ordinal": 57,
+      "content": null,
+      "content_hash": "a42ad41eefc88df44691a30909daa4def5a878ea0977286f0fc57064a8f1b71c",
+      "section_path": [
+        "X. Bảng giải thích các tên riêng và thuật ngữ"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "glossary",
+          "definitions"
+        ]
+      },
+      "content_preview": "X. Bảng giải thích các tên riêng và thuật ngữ Thuật ngữ: Cảnh Ký Ức Giải thích: Cảnh AR được khôi phục sau vụ án"
+    },
+    {
+      "source_span": "t-05-r-17",
+      "chunk_ordinal": 58,
+      "content": null,
+      "content_hash": "ca0f1dc61fa166a56a2f4b79b437b86031215506fe900b7772e8eaea83c45525",
+      "section_path": [
+        "X. Bảng giải thích các tên riêng và thuật ngữ"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 1,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "glossary",
+          "chapter_1",
+          "entity"
+        ]
+      },
+      "content_preview": "X. Bảng giải thích các tên riêng và thuật ngữ Thuật ngữ: Điệp Ức Giải thích: Sinh vật hình bướm mang ký ức được truyền lại"
+    },
+    {
+      "source_span": "t-05-r-18",
+      "chunk_ordinal": 59,
+      "content": null,
+      "content_hash": "115acbddda2aef603ae1952d7d86a4eec15b35fed4f9265e810460ee89b33e25",
+      "section_path": [
+        "X. Bảng giải thích các tên riêng và thuật ngữ"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "glossary",
+          "definitions"
+        ]
+      },
+      "content_preview": "X. Bảng giải thích các tên riêng và thuật ngữ Thuật ngữ: Đêm Ký Giới Giải thích: Hoạt động huyền bí ban đêm"
+    },
+    {
+      "source_span": "t-05-r-19",
+      "chunk_ordinal": 60,
+      "content": null,
+      "content_hash": "7dc83bfe7a7f2cde6131216169412dce5facaa0b697074281eeb10279a203732",
+      "section_path": [
+        "X. Bảng giải thích các tên riêng và thuật ngữ"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "glossary",
+          "definitions"
+        ]
+      },
+      "content_preview": "X. Bảng giải thích các tên riêng và thuật ngữ Thuật ngữ: Đêm Cộng Hưởng Giải thích: Sự kiện đặc biệt cuối tuần"
+    },
+    {
+      "source_span": "t-05-r-20",
+      "chunk_ordinal": 61,
+      "content": null,
+      "content_hash": "586ead361537e6c5b1f64df19caeb95d90c172fb8563d78d62cdbebb2ee96bde",
+      "section_path": [
+        "X. Bảng giải thích các tên riêng và thuật ngữ"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "glossary",
+          "definitions"
+        ]
+      },
+      "content_preview": "X. Bảng giải thích các tên riêng và thuật ngữ Thuật ngữ: Đại Thức Tỉnh Giải thích: Sự kiện lớn theo mùa"
+    },
+    {
+      "source_span": "t-05-r-21",
+      "chunk_ordinal": 62,
+      "content": null,
+      "content_hash": "f742ad23700c0d555636089603f42f9d77f0159bbe5c4c3dbc6d21012dec51c9",
+      "section_path": [
+        "X. Bảng giải thích các tên riêng và thuật ngữ"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "glossary",
+          "definitions"
+        ]
+      },
+      "content_preview": "X. Bảng giải thích các tên riêng và thuật ngữ Thuật ngữ: Nhật Ký Dẫn Lối Giải thích: Sổ manh mối và gợi ý khám phá"
+    },
+    {
+      "source_span": "t-05-r-22",
+      "chunk_ordinal": 63,
+      "content": null,
+      "content_hash": "3b62a93e3cdaea1b929aa12b738ea3552253751e9d83e30a3be721e486d887c2",
+      "section_path": [
+        "X. Bảng giải thích các tên riêng và thuật ngữ"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "glossary",
+          "definitions"
+        ]
+      },
+      "content_preview": "X. Bảng giải thích các tên riêng và thuật ngữ Thuật ngữ: Hộ Chiếu Ký Ức Giải thích: Album hành trình lâu dài"
+    },
+    {
+      "source_span": "t-05-r-23",
+      "chunk_ordinal": 64,
+      "content": null,
+      "content_hash": "4364fb6c4b2343fe44c8bdd72de4ab1fffc5eefc65b49942d942dcdf90be7839",
+      "section_path": [
+        "X. Bảng giải thích các tên riêng và thuật ngữ"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 5,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "glossary",
+          "ending_spoiler",
+          "antagonist"
+        ]
+      },
+      "content_preview": "X. Bảng giải thích các tên riêng và thuật ngữ Thuật ngữ: Người Giữ Im Lặng Giải thích: Người phong ấn ký ức để giữ chúng bất biến"
+    },
+    {
+      "source_span": "t-05-r-24",
+      "chunk_ordinal": 65,
+      "content": null,
+      "content_hash": "7fcec6cb6e7ed79ffc0f38753521cce42978f47484028169aecd30db678d6b39",
+      "section_path": [
+        "X. Bảng giải thích các tên riêng và thuật ngữ"
+      ],
+      "metadata": {
+        "knowledge_domain": "game_lore",
+        "language": "vi",
+        "visibility": "player",
+        "canonical_status": "design_approved",
+        "story_access_level": 0,
+        "web_search_allowed": false,
+        "requires_evidence_from": "internal_canonical_source",
+        "tags": [
+          "glossary",
+          "onboarding",
+          "public_progression"
+        ]
+      },
+      "content_preview": "X. Bảng giải thích các tên riêng và thuật ngữ Thuật ngữ: Người Kể Tiếp Giải thích: Danh xưng cuối mùa của người chơi"
+    }
+  ]
+}

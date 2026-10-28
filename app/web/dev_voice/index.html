@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Voice Lab · Saigon: Veilwake</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/dev/assets/style.css">
+  <link rel="stylesheet" href="/dev/assets/tts.css">
+  <script type="module" src="/dev/assets/app.js"></script>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar"><a class="brand" href="/dev/"><span class="brand-icon" aria-hidden="true">◈</span><span>SAIGON: VEILWAKE<small>VOICE LAB</small></span></a><span class="pill">LOCAL DEMO <span class="dot"></span></span></header>
+    <main>
+      <section class="intro"><div class="eyebrow">MỘT CÂU NÓI. MỘT LỜI ĐÁP.</div><h1>Thử trò chuyện<br>bằng <em>giọng nói.</em></h1><p>Nhấn mic, nói một câu rồi nhấn dừng. Phần còn lại để Voice Lab lo.</p></section>
+      <section class="access" aria-labelledby="access-title">
+        <div><h2 id="access-title">Kết nối phiên thử nghiệm</h2><p>Chạy thử trên máy của bạn.</p></div>
+        <form id="connect-form"><button id="connect-button" class="secondary" type="submit">Kết nối <span aria-hidden="true">↗</span></button><button id="disconnect-button" class="secondary" type="button" hidden>Ngắt kết nối</button></form>
+      </section>
+      <section class="tts-config panel" aria-labelledby="tts-config-title">
+        <div>
+          <span class="eyebrow">THIẾT LẬP TEST</span>
+          <h2 id="tts-config-title">Giọng phản hồi &amp; Tiến trình Lore</h2>
+          <p class="muted">Chọn provider và mức mở khóa cốt truyện (Spoiler Gate) cho lượt kế tiếp. Key và địa chỉ service luôn nằm ở server.</p>
+        </div>
+        <div class="tts-controls">
+          <label for="tts-provider">TTS provider</label>
+          <select id="tts-provider" disabled><option>Đang tải lựa chọn…</option></select>
+          <label id="vieneu-voice-label" for="vieneu-voice" hidden>Giọng VieNeu</label>
+          <select id="vieneu-voice" hidden disabled></select>
+          <label for="story-access-level">Mức mở khóa Lore (Spoiler Gate)</label>
+          <select id="story-access-level">
+            <option value="0">Level 0 · Công khai / Nhập môn</option>
+            <option value="1">Level 1 · Chương 1 (Những Cánh Bướm Không Trở Về / Điệp Ức)</option>
+            <option value="2">Level 2 · Chương 2 (Những Bức Thư Chưa Được Gửi)</option>
+            <option value="3">Level 3 · Chương 3 (Tiếng Vọng Từ Biển)</option>
+            <option value="4">Level 4 · Chương 4 (Bàn Tay Cuối Cùng)</option>
+            <option value="5">Level 5 · Chương 5 / Cuối mùa (Người Giữ Im Lặng)</option>
+          </select>
+        </div>
+        <p id="tts-choice-note" class="muted">Kết nối phiên để tải lựa chọn TTS local.</p>
+      </section>
+      <section class="workspace">
+        <section class="recorder panel" aria-labelledby="record-title">
+          <div class="panel-heading"><span class="eyebrow">01 / GIỌNG NÓI CỦA BẠN</span><span id="connection-status" class="connection">Chưa kết nối</span></div>
+          <h2 id="record-title">Sẵn sàng lắng nghe.</h2>
+          <p id="record-hint" class="muted">Kết nối phiên để bắt đầu. Mỗi lượt tối đa 30 giây.</p>
+          <div id="voice-orb" class="voice-orb" aria-hidden="true"><div class="orb-ring"></div><div class="wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+          <div class="record-clock"><span id="record-time">00:00</span><span class="muted"> / 00:30</span></div>
+          <label class="sr-only" for="mic-level">Mức âm lượng microphone</label><progress id="mic-level" max="1" value="0"></progress>
+          <button id="mic-button" class="primary mic-button" type="button" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10v2a7 7 0 0 0 14 0v-2M12 19v3M8 22h8"/></svg><span id="mic-label">Nhấn để nói</span></button>
+          <label class="check"><input id="want-voice" type="checkbox" checked> Nhận phản hồi bằng giọng nói</label>
+          <details class="text-test"><summary>Hoặc thử bằng văn bản <span aria-hidden="true">+</span></summary><form id="text-form"><label class="sr-only" for="message">Câu hỏi thử nghiệm</label><textarea id="message" rows="3" maxlength="4000" placeholder="Nhập một câu hỏi ngắn…"></textarea><button id="send-text" class="secondary" type="submit" disabled>Gửi câu hỏi <span aria-hidden="true">↗</span></button></form></details>
+        </section>
+        <section class="response panel" aria-labelledby="response-title">
+          <div class="panel-heading"><span class="eyebrow">02 / LỜI PHẢN HỒI</span><span id="verification-badge" class="unverified">CHƯA KIỂM CHỨNG</span></div>
+          <h2 id="response-title">Cuộc trò chuyện bắt đầu từ bạn.</h2>
+          <div class="steps" aria-label="Các bước xử lý"><span data-stage="TRANSCRIBING">01 · Nhận dạng</span><span data-stage="GENERATING">02 · Trả lời</span><span data-stage="SYNTHESIZING">03 · Tạo giọng</span></div>
+          <div id="status-message" class="status" role="status" aria-live="polite">Chưa có lượt trò chuyện.</div>
+          <div class="transcript"><h3>BẠN ĐÃ NÓI</h3><p id="transcript">Lời nói được nhận dạng sẽ xuất hiện ở đây.</p></div>
+          <div class="answer"><h3>VOICE LAB TRẢ LỜI</h3><p id="answer">Một câu trả lời ngắn gọn, bằng tiếng Việt.</p></div>
+          <div id="citations-area" class="transcript" hidden><h3>NGUỒN CHỨNG CỨ (RAG CITATIONS)</h3><p id="citations-list"></p></div>
+          <div id="audio-area" hidden><audio id="reply-audio" controls preload="metadata" aria-label="Nghe lại giọng phản hồi"></audio><p id="audio-note" class="muted"></p></div>
+          <button id="retry-button" class="secondary" type="button" hidden>Thử lại kết nối lượt này</button>
+          <button id="retry-audio" class="secondary" type="button" hidden>Tải lại audio</button>
+          <div class="timings"><div><span>NHẬN DẠNG</span><strong id="stt-time">—</strong></div><div><span>TRẢ LỜI</span><strong id="llm-time">—</strong></div><div><span>TẠO GIỌNG</span><strong id="tts-time">—</strong></div></div>
+        </section>
+      </section>
+      <aside class="demo-note"><span aria-hidden="true">◇</span><p><strong>Đang thử khả năng nghe, nói, tra cứu RAG + Web Fallback có điều kiện và nhớ ngữ cảnh hội thoại.</strong> Câu trả lời được đối chiếu với kho tri thức Supabase (ưu tiên RAG, mở Web Search cho địa danh ngoài đời), lọc spoiler theo mức mở khóa (Level 0–5) và kiểm định qua Verification Gate trước khi đọc giọng.</p></aside>
+    </main>
+    <footer><span>Saigon: Veilwake / Development playground</span><span>Giọng nói → Văn bản → Phản hồi → Giọng nói</span></footer>
+  </div>
+</body>
+</html>

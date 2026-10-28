@@ -1,0 +1,44 @@
+# Environment & Secrets (NEVER commit real keys)
+.env
+.env.*
+!.env.example
+
+# Python virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Python bytecode & packaging
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+pip-wheel-metadata/
+
+# Testing, Linting & Type-checking caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Voice loop temporary audio & debug recordings
+.voice_loop_tmp/
+.tmp_voice/
+*.wav
+*.pcm
+
+# Supabase CLI local state
+supabase/.temp/
+supabase/.branches/
+
+# IDE & OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

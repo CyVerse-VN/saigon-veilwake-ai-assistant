@@ -1,0 +1,43 @@
+services:
+  - type: web
+    name: saigon-veilwake-ai-guide
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT --workers 1
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.9"
+      - key: SVAI_APP_ENV
+        value: development
+      - key: DEV_VOICE_ENABLED
+        value: "false"
+      - key: TTS_PROVIDER
+        value: elevenlabs
+      - key: ELEVENLABS_TTS_MODEL
+        value: eleven_flash_v2_5
+      - key: ELEVENLABS_API_KEY
+        sync: false
+      - key: ELEVENLABS_TTS_VOICE_ID
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_STT_MODEL
+        value: gemini-2.5-flash
+      - key: GEMINI_EMBEDDING_MODEL
+        value: gemini-embedding-001
+      - key: GROQ_GENERATOR_API_KEY
+        sync: false
+      - key: GROQ_VERIFIER_API_KEY
+        sync: false
+      - key: GROQ_GENERATOR_MODEL
+        value: openai/gpt-oss-120b
+      - key: GROQ_VERIFIER_MODEL
+        value: openai/gpt-oss-120b
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SECRET_KEY
+        sync: false
+      - key: SVAI_INTERNAL_SERVICE_TOKEN
+        sync: false
+

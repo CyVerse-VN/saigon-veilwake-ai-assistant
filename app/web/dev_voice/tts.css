@@ -1,0 +1,63 @@
+.tts-config {
+  display: grid;
+  grid-template-columns: 1fr minmax(220px, 360px);
+  gap: 18px;
+  align-items: end;
+  margin: 0 0 20px;
+}
+
+.tts-config h2 {
+  margin-top: 7px;
+}
+
+.tts-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px 10px;
+  text-align: left;
+}
+
+.tts-controls label {
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 0.8px;
+}
+
+.tts-controls select {
+  width: 100%;
+  padding: 10px;
+  color: var(--text);
+  background: #171d19;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.tts-controls select:disabled {
+  opacity: 0.5;
+}
+
+.tts-config #tts-choice-note {
+  grid-column: 1 / -1;
+  margin: 0;
+}
+
+@media (max-width: 850px) {
+  .tts-config {
+    grid-template-columns: 1fr;
+  }
+
+  .tts-controls {
+    max-width: 360px;
+  }
+}
+
+@media (max-width: 450px) {
+  .tts-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .tts-controls label,
+  .tts-controls select {
+    grid-column: 1;
+  }
+}
