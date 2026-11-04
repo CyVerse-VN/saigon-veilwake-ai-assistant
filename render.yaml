@@ -41,3 +41,7 @@ services:
       - key: SVAI_INTERNAL_SERVICE_TOKEN
         sync: false
 
+      - key: TOMTOM_API_KEY
+        sync: false
+      - key: TRAFFIC_DAILY_CALL_LIMIT
+        value: "1000"

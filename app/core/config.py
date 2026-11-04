@@ -1,7 +1,7 @@
 from functools import lru_cache
 from typing import Literal
 
-from pydantic import AliasChoices, Field
+from pydantic import AliasChoices, Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -22,6 +22,8 @@ class Settings(BaseSettings):
     dev_voice_max_turns: int = Field(default=500, ge=1, le=5000)
     service_name: str = "saigon-veilwake-ai-guide"
     internal_service_token: str | None = None
+    tomtom_api_key: SecretStr | None = None
+    traffic_daily_call_limit: int = Field(default=1000, ge=1, le=100000)
     cors_allow_origins: str = Field(
         default="*",
         validation_alias=AliasChoices(
