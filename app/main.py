@@ -11,6 +11,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from app.api import dev_voice
+from app.api.travel_conditions import TravelRequestGuard
+from app.api.travel_conditions import create_app as create_travel_app
 from app.api.v1 import conversations, health, turns, voice
 from app.core.config import Settings, get_settings
 from app.core.dev_voice_http import DevRequestGuard
@@ -113,6 +115,13 @@ def create_app(
         allow_headers=["*"],
     )
     application.add_middleware(DevRequestGuard, settings=settings)
+
+    travel = create_travel_app(
+        key=settings.tomtom_api_key.get_secret_value() if settings.tomtom_api_key else "",
+        daily_limit=settings.traffic_daily_call_limit,
+    )
+    application.include_router(travel.router)
+    application.add_middleware(TravelRequestGuard)
 
     application.include_router(health.router)
     application.include_router(conversations.router)
