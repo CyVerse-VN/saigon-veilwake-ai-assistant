@@ -69,7 +69,7 @@ Sau khi cập nhật main, Render cần deploy bản mới (tự động nếu �
 hoặc Manual Deploy → Deploy latest commit). Kiểm `GET /health` có:
 
 ```json
-{"status":"ok","guide_policy_version":"2026-11-05.flexible-v1"}
+{"status":"ok","guide_policy_version":"2026-11-05.flexible-v2"}
 ```
 
 Marker chứng minh phiên bản policy, không chứng minh corpus/provider có đủ dữ liệu.
@@ -95,3 +95,12 @@ kiểm hồi quy riêng. Các nguồn mạng có thể từ chối/timeout theo 
 Chưa xác minh Groq/Verifier/STT/TTS thật của bản mới trên Render trong lần kiểm
 cục bộ; kiểm runtime sau deploy theo marker nêu trên. Không ingest/ghi DB,
 không sửa Android hoặc dữ liệu người chơi.
+
+## Vòng kiểm câu hỏi thực tế tiếp theo
+
+Bổ sung xử lý “công trình hiện nay” theo địa điểm đang chọn, bỏ địa danh bị phủ định
+trong mẫu “X, không phải Y”, tìm cả hai địa danh khi so sánh và yêu cầu nguồn mới
+cho lịch biểu diễn/tối nay. Có kiểm hồi quy tương ứng. Các lỗi này được tìm trong
+đợt kiểm API live 36 câu trên bản flexible-v1; không thay nhãn kết quả cũ thành
+kết quả của bản mới. Nguồn Wikipedia vẫn có thể chứa dữ kiện lịch sử không chính
+xác; PASS chỉ xác nhận đối chiếu bằng chứng hiện có, không thay thẩm định nguồn.

@@ -10,12 +10,12 @@ from app.api.v1.conversations import get_turn_service
 from app.core.config import Settings
 from app.main import create_app
 from app.modules.conversation.landmark_context import resolve_landmark_query
-from app.modules.conversation.landmarks import LANDMARK_NAMES
+from app.modules.conversation.landmarks import LANDMARK_NAMES, known_landmark_topics
 from app.modules.conversation.memory import ConversationMemoryStore
 from app.modules.knowledge.models import EvidencePackage
 from app.modules.orchestration.service import InMemoryTurnService, build_turn_service
 from app.modules.query_router.router import RouteMode, analyze_query
-from app.modules.verification.gate import DraftAnswer
+from app.modules.verification.gate import DraftAnswer, VerificationGate
 from app.modules.web_search.service import (
     BraveWebSearchProvider,
     WebSearchResult,
@@ -68,6 +68,57 @@ def test_public_questions_and_unaccented_lore_have_distinct_routes():
     assert analyze_query("Nó có gì thú vị?").route_mode == RouteMode.NEEDS_CLARIFICATION
     assert analyze_query("Ai thiết kế?").route_mode == RouteMode.NEEDS_CLARIFICATION
     assert analyze_query("Toi da co bao nhieu huy hieu?").route_mode == RouteMode.GAME_STATE
+
+
+def test_current_building_followups_keep_the_selected_subject():
+    for query in ["Ai là kiến trúc sư thiết kế công trình hiện nay?",
+                  "Công trình hiện nay khánh thành năm nào?"]:
+        assert "Dinh Độc Lập" in resolve_landmark_query(query, "independence_palace")
+
+
+def test_negated_subject_is_not_selected_for_search():
+    query = "Giới thiệu Chợ Bình Tây, không phải Nhà thờ Đức Bà."
+    assert known_landmark_topics(query) == (LANDMARK_NAMES["binh_tay"],)
+
+
+def test_tonight_performance_requires_current_sources():
+    plan = analyze_query("Tối nay Nhà hát Thành phố có chương trình biểu diễn nào?")
+    assert plan.requires_freshness
+
+
+def test_cited_refusal_is_not_a_verified_answer():
+    evidence = WebSearchService._normalize_results(
+        original_query="Vì sao chợ có tên Bến Thành?", sanitized_query="Chợ Bến Thành",
+        knowledge_domain="real_world", allowed_story_access_level=0,
+        results=[WebSearchResult("Chợ Bến Thành", "https://example.org/market", "Dữ kiện mẫu.")],
+    )
+    text = ("Các tài liệu được cung cấp không đề cập đến nguyên nhân đặt tên Bến Thành, "
+            "vì vậy không thể trả lời câu hỏi này dựa trên bằng chứng hiện có.")
+    draft = DraftAnswer(text=text, cited_evidence_ids=("ev_01",))
+    report = {"decision": "PASS", "claims": [{"claim_id": "c1", "text": text,
+              "status": "SUPPORTED", "supporting_evidence_ids": ["ev_01"]}]}
+    assert VerificationGate().evaluate(draft, report, evidence).status == "REJECT"
+
+
+@pytest.mark.asyncio
+async def test_comparison_searches_both_subjects_before_fetching_pages():
+    subjects = []
+
+    def handle(request):
+        if request.url.params.get("list") == "search":
+            topic = request.url.params["srsearch"]
+            subjects.append(topic)
+            return httpx.Response(200, json={"query": {"search": [{"title": topic}]}})
+        title = request.url.params["titles"]
+        return httpx.Response(200, json={"query": {"pages": {"1": {
+            "title": title, "fullurl": "https://vi.wikipedia.org/wiki/" + title,
+            "extract": title + " có phong cách kiến trúc riêng.",
+        }}}})
+
+    provider = WikipediaViWebSearchProvider(transport=httpx.MockTransport(handle))
+    results = await provider.search("So sánh Nhà thờ Đức Bà và Nhà thờ Tân Định", max_results=2)
+    assert set(subjects) == {LANDMARK_NAMES["cathedral"], LANDMARK_NAMES["tan_dinh_church"]}
+    assert len(results) == 2
 
 
 def test_infobox_date_templates_preserve_the_year():

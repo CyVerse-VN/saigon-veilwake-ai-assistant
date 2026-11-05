@@ -142,6 +142,14 @@ class VerificationGate:
         ):
             return GateDecision(status="REJECT", reason="DRAFT_REPORTS_MISSING_EVIDENCE")
 
+        if (
+            lowered_draft.startswith((
+                "các tài liệu được cung cấp không đề cập", "bằng chứng hiện có không đề cập",
+            ))
+            and ("không thể trả lời" in lowered_draft or "chưa thể trả lời" in lowered_draft)
+        ):
+            return GateDecision(status="REJECT", reason="DRAFT_REPORTS_MISSING_EVIDENCE")
+
         if not evidence.is_sufficient or not evidence.items:
             return GateDecision(status="REJECT", reason="EVIDENCE_INSUFFICIENT")
 

@@ -72,6 +72,7 @@ _DEICTIC_REPLACEMENT_PATTERNS: tuple[re.Pattern[str], ...] = (
         r"\b(ông\s+ấy|bà\s+ấy|cô\s+ấy|anh\s+ấy|người\s+đó|nó|họ)\b",
         re.IGNORECASE,
     ),
+    re.compile(r"\b(công\s+trình|tòa\s+nhà)\s+hiện\s+(nay|tại)\b", re.IGNORECASE),
 )
 
 _ELLIPTICAL_FOLLOWUP_PATTERN = re.compile(

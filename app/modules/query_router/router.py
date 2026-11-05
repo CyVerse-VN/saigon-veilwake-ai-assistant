@@ -82,6 +82,8 @@ _GAME_STATE_KEYWORDS = (
 )
 
 _FRESHNESS_KEYWORDS = (
+    "tối nay", "sáng nay", "chiều nay", "ngày mai", "tuần này", "tháng này",
+    "lịch biểu diễn", "chương trình biểu diễn",
     "giá vé", "giờ mở cửa", "giờ đóng cửa", "mở cửa lúc", "đóng cửa lúc",
     "mở cửa khi", "mở cửa mấy", "đóng cửa mấy", "có mất phí", "thời tiết",
     "dự báo", "kẹt xe", "kế hoạch hôm nay",
