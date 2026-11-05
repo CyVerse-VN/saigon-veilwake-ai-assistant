@@ -16,7 +16,11 @@ from uuid import NAMESPACE_URL, uuid5
 
 import httpx
 
-from app.modules.conversation.landmarks import fold_vietnamese, known_landmark_topic
+from app.modules.conversation.landmarks import (
+    fold_vietnamese,
+    known_landmark_topic,
+    known_landmark_topics,
+)
 from app.modules.knowledge.models import Citation, EvidenceItem, EvidencePackage
 from app.modules.query_router.router import (
     DEFAULT_SEARCH_ALIASES,
@@ -352,20 +356,26 @@ class WikipediaViWebSearchProvider:
                     timeout=self._timeout_seconds,
                     transport=self._transport,
                 ) as client:
-                    search_resp = await client.get(
-                        "https://vi.wikipedia.org/w/api.php",
-                        params={
-                            "action": "query",
-                            "list": "search",
-                            "srsearch": known_landmark_topic(cleaned) or cleaned,
-                            "srlimit": limit,
-                            "srnamespace": 0,
-                            "format": "json",
-                        },
-                        headers=headers,
-                    )
-                    search_resp.raise_for_status()
-                    search_hits = search_resp.json().get("query", {}).get("search", [])
+                    async def find_pages(topic: str) -> list[dict[str, Any]]:
+                        search_resp = await client.get(
+                            "https://vi.wikipedia.org/w/api.php",
+                            params={"action": "query", "list": "search", "srsearch": topic,
+                                    "srlimit": limit, "srnamespace": 0, "format": "json"},
+                            headers=headers,
+                        )
+                        search_resp.raise_for_status()
+                        return search_resp.json().get("query", {}).get("search", [])
+
+                    topics = known_landmark_topics(cleaned)[:2] or (cleaned,)
+                    groups = await asyncio.gather(*(find_pages(topic) for topic in topics))
+                    # Interleave hits so each subject in a comparison gets evidence.
+                    search_hits = []
+                    seen_titles: set[str] = set()
+                    for rank in range(limit):
+                        for group in groups:
+                            if rank < len(group) and group[rank].get("title") not in seen_titles:
+                                search_hits.append(group[rank])
+                                seen_titles.add(group[rank].get("title", ""))
                     titles = [
                         str(hit.get("title") or "").strip()
                         for hit in search_hits

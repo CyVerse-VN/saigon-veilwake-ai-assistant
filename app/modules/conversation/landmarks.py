@@ -57,13 +57,23 @@ def fold_vietnamese(text: str) -> str:
     return "".join(char for char in decomposed if not unicodedata.combining(char))
 
 
-def known_landmark_topic(query: str) -> str | None:
+def known_landmark_topics(query: str) -> tuple[str, ...]:
     folded = fold_vietnamese(query)
+    # A rejected alternative is not the subject to retrieve ("X, không phải Y").
+    positive = re.split(r"\b(?:chu khong phai|khong phai|thay vi)\b", folded)[0]
+    if positive.strip():
+        folded = positive
     names = {**{name: key for key, name in LANDMARK_NAMES.items()}, **_ALIASES}
-    for name in sorted(names, key=len, reverse=True):
-        if re.search(r"\b" + re.escape(fold_vietnamese(name)) + r"\b", folded):
-            return LANDMARK_NAMES[names[name]]
-    return None
+    matches = []
+    for name, key in names.items():
+        match = re.search(r"\b" + re.escape(fold_vietnamese(name)) + r"\b", folded)
+        if match:
+            matches.append((match.start(), -len(name), LANDMARK_NAMES[key]))
+    return tuple(dict.fromkeys(topic for _, _, topic in sorted(matches)))
+
+
+def known_landmark_topic(query: str) -> str | None:
+    return next(iter(known_landmark_topics(query)), None)
 
 
 _PLACE_QUESTION = re.compile(

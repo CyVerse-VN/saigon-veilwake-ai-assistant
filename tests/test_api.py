@@ -7,7 +7,7 @@ client = TestClient(app)
 
 def test_health_is_public() -> None:
     assert client.get("/health").json() == {
-        "status": "ok", "guide_policy_version": "2026-11-05.flexible-v1",
+        "status": "ok", "guide_policy_version": "2026-11-05.flexible-v2",
     }
 
 
