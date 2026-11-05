@@ -17,13 +17,14 @@ SPOILER_FALLBACK_TEXT = (
     "Hãy tiếp tục khám phá các chương tiếp theo nhé."
 )
 CLARIFICATION_FALLBACK_TEXT = (
-    "Bạn có thể nói rõ hơn câu hỏi thuộc về thế giới Saigon: Veilwake hay địa điểm ngoài đời không?"
+    "Bạn muốn hỏi về địa điểm hoặc chủ đề nào? Chọn địa điểm hoặc nói rõ tên để Vara tìm giúp nhé."
 )
 GAME_STATE_UNAVAILABLE_TEXT = (
     "Mình chưa kiểm tra được trạng thái tiến trình của bạn từ hệ thống trò chơi lúc này."
 )
 DIRECT_GREETING_TEXT = (
-    "Xin chào Người Lắng Nghe! Bạn muốn tìm hiểu về thế giới Ký Giới hay các địa danh tại Sài Gòn?"
+    "Xin chào! Mình là Vara. Bạn muốn tìm hiểu về địa danh, văn hóa, ẩm thực Sài Gòn "
+    "hay thế giới Ký Giới?"
 )
 
 ClaimStatus = Literal["SUPPORTED", "UNSUPPORTED", "CONTRADICTED", "INSUFFICIENT_EVIDENCE"]

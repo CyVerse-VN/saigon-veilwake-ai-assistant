@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import asyncio
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from typing import Any, Protocol
 from uuid import uuid4
 
@@ -276,74 +276,38 @@ class InMemoryTurnService:
             evidence,
             allowed_story_access_level=record.story_access_level,
             retrieval_error=retrieval_error,
+            evidence_is_stale=plan.requires_freshness,
         )
 
         can_try_public_web = (
-            self._web_search_service is not None
-            and not retrieval_error
+            plan.web_search_eligible_if_rag_insufficient
+            and plan.knowledge_domain in {"real_world", "dynamic_web"}
             and not is_exclusive_lore_query(query)
+            and (self._web_search_service is not None or self._web_search_provider is not None)
         )
+        freshness = "day" if plan.requires_freshness else None
         web_searched = False
+        if plan.requires_freshness:
+            evidence = None
 
-        # 4. Conditional Web Search fallback ONLY when gate/non-lore rules allow it.
-        if (decision.web_search_allowed and decision.public_web_subquery) or (
-            can_try_public_web and (evidence is None or not evidence.is_sufficient)
-        ):
-            web_decision = (
-                decision
-                if (decision.web_search_allowed and decision.public_web_subquery)
-                else RoutingDecision(
-                    query=query,
-                    knowledge_domain="real_world",
-                    route_mode=RouteMode.WEB_FALLBACK,
-                    allowed_sources=("internal_rag", "web_search"),
-                    rag_evidence_status=RagEvidenceStatus.INSUFFICIENT,
-                    web_search_allowed=True,
-                    fallback_reason="RAG_INSUFFICIENT_PUBLIC_WEB_ALLOWED",
-                    public_web_subquery=query,
-                )
+        # One source policy for both insufficient RAG and public RAG outages.
+        if decision.web_search_allowed and decision.public_web_subquery and can_try_public_web:
+            web_searched = True
+            web_ev = await self._search_public_evidence(
+                decision, record.story_access_level, freshness=freshness
             )
-            if self._web_search_service is not None:
-                web_ev = await self._web_search_service.search_if_eligible(
-                    web_decision,
+            if web_ev is not None and web_ev.is_sufficient:
+                # Stale internal facts must not dilute a time-sensitive answer.
+                evidence = merge_evidence_packages(
+                    evidence if not plan.requires_freshness else None,
+                    web_ev,
+                    query=query,
+                    knowledge_domain=plan.knowledge_domain,
                     allowed_story_access_level=record.story_access_level,
                 )
-                web_searched = True
-                if web_ev.is_sufficient:
-                    evidence = merge_evidence_packages(
-                        evidence if (evidence and evidence.is_sufficient) else None,
-                        web_ev,
-                        query=query,
-                        knowledge_domain=web_decision.knowledge_domain,
-                        allowed_story_access_level=record.story_access_level,
-                    )
-                    decision = RoutingDecision(
-                        query=web_decision.query,
-                        knowledge_domain=web_decision.knowledge_domain,
-                        route_mode=web_decision.route_mode,
-                        allowed_sources=web_decision.allowed_sources,
-                        rag_evidence_status=web_decision.rag_evidence_status,
-                        web_search_allowed=True,
-                        fallback_reason=web_decision.fallback_reason,
-                        web_search_used=True,
-                        public_web_subquery=web_decision.public_web_subquery,
-                    )
-            elif self._web_search_provider is not None and decision.public_web_subquery:
-                try:
-                    evidence = await self._web_search_provider.search(decision.public_web_subquery)
-                    decision = RoutingDecision(
-                        query=decision.query,
-                        knowledge_domain=decision.knowledge_domain,
-                        route_mode=decision.route_mode,
-                        allowed_sources=decision.allowed_sources,
-                        rag_evidence_status=decision.rag_evidence_status,
-                        web_search_allowed=True,
-                        fallback_reason=decision.fallback_reason,
-                        web_search_used=True,
-                        public_web_subquery=decision.public_web_subquery,
-                    )
-                except Exception:
-                    evidence = None
+                decision = replace(decision, web_search_used=True)
+            elif plan.requires_freshness:
+                evidence = None
 
         record.routing_decision = decision
 
@@ -377,22 +341,19 @@ class InMemoryTurnService:
             allowed_story_access_level=record.story_access_level,
         )
         if not outcome.passed and can_try_public_web and not web_searched:
-            assert self._web_search_service is not None
-            web_decision = RoutingDecision(
-                query=query,
-                knowledge_domain="real_world",
+            web_decision = replace(
+                decision,
                 route_mode=RouteMode.WEB_FALLBACK,
-                allowed_sources=("internal_rag", "web_search"),
                 rag_evidence_status=RagEvidenceStatus.INSUFFICIENT,
                 web_search_allowed=True,
-                fallback_reason="RAG_INSUFFICIENT_PUBLIC_WEB_ALLOWED",
+                fallback_reason="RAG_ANSWER_NOT_SUPPORTED_PUBLIC_WEB_ALLOWED",
                 public_web_subquery=query,
             )
-            web_ev = await self._web_search_service.search_if_eligible(
-                web_decision,
-                allowed_story_access_level=record.story_access_level,
+            web_ev = await self._search_public_evidence(
+                web_decision, record.story_access_level, freshness=freshness
             )
-            if web_ev.is_sufficient:
+            if web_ev is not None and web_ev.is_sufficient:
+                record.routing_decision = replace(web_decision, web_search_used=True)
                 outcome = await run_verified_answer_pipeline(
                     query,
                     web_ev,
@@ -428,6 +389,23 @@ class InMemoryTurnService:
             knowledge_domain=plan.knowledge_domain,
             verification_status=record.verification_status,
         )
+
+    async def _search_public_evidence(
+        self, decision: RoutingDecision, story_access_level: int, *, freshness: str | None
+    ) -> EvidencePackage | None:
+        if self._web_search_service is not None:
+            return await self._web_search_service.search_if_eligible(
+                decision, allowed_story_access_level=story_access_level, freshness=freshness
+            )
+        if self._web_search_provider is not None and decision.public_web_subquery:
+            # Legacy evidence adapter does not expose a freshness contract.
+            if freshness:
+                return None
+            try:
+                return await self._web_search_provider.search(decision.public_web_subquery)
+            except Exception:
+                return None
+        return None
 
     async def _finalize_approved_turn(
         self, record: TurnRecord, approved_answer_id: str, wants_audio: bool
@@ -590,35 +568,40 @@ def build_turn_service(settings: Settings | None = None) -> InMemoryTurnService:
 
     cfg = settings or get_settings()
     if not (
-        cfg.supabase_url
-        and cfg.supabase_secret_key
-        and cfg.gemini_api_key
-        and cfg.groq_generator_api_key
+        cfg.groq_generator_api_key
         and cfg.groq_generator_model
     ):
         return InMemoryTurnService()
 
     from app.integrations.embeddings.gemini import GeminiEmbeddingProvider
     from app.integrations.llm.groq_verified import GroqClaimVerifier, GroqGroundedGenerator
-    from app.modules.knowledge.retrieval import SupabaseKnowledgeRetriever
+    from app.modules.knowledge.retrieval import (
+        InMemoryKnowledgeRetriever,
+        SupabaseKnowledgeRetriever,
+    )
     from app.modules.web_search.service import (
         BraveWebSearchProvider,
         TavilyWebSearchProvider,
+        WebSearchCache,
         WebSearchProvider,
         WikipediaViWebSearchProvider,
     )
 
-    embedder = GeminiEmbeddingProvider(
-        api_key=cfg.gemini_api_key,
-        model=cfg.gemini_embedding_model,
-        dimensions=cfg.gemini_embedding_dimensions,
-        timeout_seconds=cfg.gemini_request_timeout_seconds,
-    )
-    retriever = SupabaseKnowledgeRetriever(
-        supabase_url=cfg.supabase_url,
-        supabase_secret_key=cfg.supabase_secret_key,
-        embedder=embedder,
-    )
+    # Text + verified public search remain useful without embeddings/STT/Supabase.
+    # Empty internal evidence still prevents web fallback for exclusive game lore.
+    retriever: KnowledgeRetrieverProtocol = InMemoryKnowledgeRetriever([])
+    if cfg.supabase_url and cfg.supabase_secret_key and cfg.gemini_api_key:
+        embedder = GeminiEmbeddingProvider(
+            api_key=cfg.gemini_api_key,
+            model=cfg.gemini_embedding_model,
+            dimensions=cfg.gemini_embedding_dimensions,
+            timeout_seconds=cfg.gemini_request_timeout_seconds,
+        )
+        retriever = SupabaseKnowledgeRetriever(
+            supabase_url=cfg.supabase_url,
+            supabase_secret_key=cfg.supabase_secret_key,
+            embedder=embedder,
+        )
     generator = GroqGroundedGenerator(
         cfg.groq_generator_api_key,
         cfg.groq_generator_model,
@@ -645,7 +628,9 @@ def build_turn_service(settings: Settings | None = None) -> InMemoryTurnService:
         web_provider = WikipediaViWebSearchProvider(
             timeout_seconds=cfg.web_search_timeout_seconds,
         )
-    web_search_service = WebSearchService(web_provider)
+    web_search_service = WebSearchService(
+        web_provider, cache=WebSearchCache(ttl_seconds=cfg.web_search_cache_ttl_seconds)
+    )
     stt_adapter: SttAdapterProtocol | None = (
         _GeminiBytesSttAdapter(cfg) if cfg.gemini_api_key else None
     )

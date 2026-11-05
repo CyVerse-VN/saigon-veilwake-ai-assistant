@@ -6,7 +6,9 @@ client = TestClient(app)
 
 
 def test_health_is_public() -> None:
-    assert client.get("/health").json() == {"status": "ok"}
+    assert client.get("/health").json() == {
+        "status": "ok", "guide_policy_version": "2026-11-05.flexible-v1",
+    }
 
 
 def test_text_turn_is_fail_closed_and_never_creates_audio() -> None:

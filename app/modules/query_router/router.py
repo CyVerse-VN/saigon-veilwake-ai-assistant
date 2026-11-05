@@ -7,6 +7,11 @@ import unicodedata
 from dataclasses import dataclass
 from enum import Enum
 
+from app.modules.conversation.landmarks import (
+    fold_vietnamese,
+    is_subject_free_place_question,
+    known_landmark_topic,
+)
 from app.modules.knowledge.models import EvidencePackage
 from app.modules.knowledge.retrieval import DEFAULT_SEARCH_ALIASES
 
@@ -55,7 +60,8 @@ class RoutingDecision:
 
 
 _GREETING_PATTERNS = re.compile(
-    r"^(xin\s+chào|chào\s+bạn|chào\s+ai|hello|hi|hey|cảm\s+ơn|tạm\s+biệt)[!.?\s]*$",
+    r"^(xin\s+chao|chao|hello|hi|hey|cam\s+on|tam\s+biet)"
+    r"(?:\s+(?:ban|ai|vara|kiri))?[!.?\s]*$",
     re.IGNORECASE,
 )
 
@@ -69,9 +75,16 @@ _GAME_STATE_KEYWORDS = (
     "tiến trình của tôi",
     "tôi có bao nhiêu huy hiệu",
     "tôi đã hoàn thành",
+    "tôi đã có",
+    "huy hiệu của tôi",
+    "cấp độ của tôi",
+    "phần thưởng của tôi",
 )
 
 _FRESHNESS_KEYWORDS = (
+    "giá vé", "giờ mở cửa", "giờ đóng cửa", "mở cửa lúc", "đóng cửa lúc",
+    "mở cửa khi", "mở cửa mấy", "đóng cửa mấy", "có mất phí", "thời tiết",
+    "dự báo", "kẹt xe", "kế hoạch hôm nay",
     "hôm nay",
     "bây giờ",
     "hiện tại",
@@ -176,7 +189,7 @@ _LEVEL_GATED_TERMS: dict[str, int] = {
 
 
 _AMBIGUOUS_DEICTIC_PATTERNS = re.compile(
-    r"^(chỗ\s+đó|nơi\s+đó|cái\s+đó|cái\s+này|ở\s+đó)\b",
+    r"\b(cho\s+do|noi\s+do|noi\s+nay|cai\s+do|cai\s+nay|o\s+do|no)\b",
     re.IGNORECASE,
 )
 
@@ -188,20 +201,20 @@ def _normalize(text: str) -> str:
 def detect_required_access_level(query: str) -> int:
     """Return the minimum story_access_level required by explicit spoiler terms in the query."""
 
-    lowered = _normalize(query)
+    lowered = fold_vietnamese(query)
     required = 0
     for term, level in _LEVEL_GATED_TERMS.items():
-        if term in lowered:
+        if fold_vietnamese(term) in lowered:
             required = max(required, level)
     return required
 
 
 def _contains_lore_term(text: str) -> bool:
-    lowered = _normalize(text)
-    if any(keyword in lowered for keyword in _LORE_KEYWORDS):
+    lowered = fold_vietnamese(text)
+    if any(fold_vietnamese(keyword) in lowered for keyword in _LORE_KEYWORDS):
         return True
     for variants in DEFAULT_SEARCH_ALIASES.values():
-        if any(variant.lower() in lowered for variant in variants):
+        if any(fold_vietnamese(variant) in lowered for variant in variants):
             return True
     return False
 
@@ -216,7 +229,7 @@ def analyze_query(query: str, *, allowed_story_access_level: int = 0) -> Subques
     """Classify domain and initial RAG-first retrieval plan before any tool call."""
 
     cleaned = query.strip()
-    lowered = _normalize(cleaned)
+    lowered = fold_vietnamese(cleaned)
 
     if not cleaned:
         return SubquestionPlan(
@@ -228,7 +241,7 @@ def analyze_query(query: str, *, allowed_story_access_level: int = 0) -> Subques
             web_search_eligible_if_rag_insufficient=False,
         )
 
-    if _GREETING_PATTERNS.match(cleaned):
+    if _GREETING_PATTERNS.fullmatch(lowered):
         return SubquestionPlan(
             subquestion=cleaned,
             knowledge_domain="direct",
@@ -238,7 +251,7 @@ def analyze_query(query: str, *, allowed_story_access_level: int = 0) -> Subques
             web_search_eligible_if_rag_insufficient=False,
         )
 
-    if any(keyword in lowered for keyword in _GAME_STATE_KEYWORDS):
+    if any(fold_vietnamese(keyword) in lowered for keyword in _GAME_STATE_KEYWORDS):
         return SubquestionPlan(
             subquestion=cleaned,
             knowledge_domain="game_state",
@@ -250,8 +263,10 @@ def analyze_query(query: str, *, allowed_story_access_level: int = 0) -> Subques
 
     required_level = detect_required_access_level(cleaned)
     has_lore = _contains_lore_term(cleaned) or required_level > 0
-    has_freshness = any(keyword in lowered for keyword in _FRESHNESS_KEYWORDS)
-    has_real_world = any(keyword in lowered for keyword in _REAL_WORLD_KEYWORDS)
+    has_freshness = any(fold_vietnamese(keyword) in lowered for keyword in _FRESHNESS_KEYWORDS)
+    has_real_world = known_landmark_topic(cleaned) or any(
+        fold_vietnamese(keyword) in lowered for keyword in _REAL_WORLD_KEYWORDS
+    )
 
     if has_lore:
         if required_level > allowed_story_access_level:
@@ -270,6 +285,13 @@ def analyze_query(query: str, *, allowed_story_access_level: int = 0) -> Subques
             allowed_sources=("internal_rag",),
             requires_freshness=False,
             web_search_eligible_if_rag_insufficient=False,
+        )
+
+    if is_subject_free_place_question(cleaned):
+        return SubquestionPlan(
+            subquestion=cleaned, knowledge_domain="unknown",
+            route_mode=RouteMode.NEEDS_CLARIFICATION, allowed_sources=(),
+            requires_freshness=False, web_search_eligible_if_rag_insufficient=False,
         )
 
     if has_freshness:
@@ -292,7 +314,7 @@ def analyze_query(query: str, *, allowed_story_access_level: int = 0) -> Subques
             web_search_eligible_if_rag_insufficient=True,
         )
 
-    if _AMBIGUOUS_DEICTIC_PATTERNS.match(cleaned):
+    if _AMBIGUOUS_DEICTIC_PATTERNS.search(lowered):
         return SubquestionPlan(
             subquestion=cleaned,
             knowledge_domain="unknown",
@@ -302,15 +324,15 @@ def analyze_query(query: str, *, allowed_story_access_level: int = 0) -> Subques
             web_search_eligible_if_rag_insufficient=False,
         )
 
-    # Default RAG-first policy: treat general questions in the AI Guide as game_lore
-    # queries against internal RAG rather than rejecting before retrieval.
+    # Ordinary questions can use public evidence. Explicit lore and game state have
+    # already been handled above and remain internal-only regardless of RAG health.
     return SubquestionPlan(
         subquestion=cleaned,
-        knowledge_domain="game_lore",
+        knowledge_domain="real_world",
         route_mode=RouteMode.INTERNAL,
-        allowed_sources=("internal_rag",),
+        allowed_sources=("internal_rag", "web_search"),
         requires_freshness=False,
-        web_search_eligible_if_rag_insufficient=False,
+        web_search_eligible_if_rag_insufficient=True,
     )
 
 
@@ -373,14 +395,24 @@ def evaluate_routing_decision(
         )
 
     if retrieval_error:
+        public_web_allowed = (
+            plan.knowledge_domain in {"real_world", "dynamic_web"}
+            and plan.web_search_eligible_if_rag_insufficient
+            and web_budget_available
+            and not is_exclusive_lore_query(plan.subquestion)
+        )
         return RoutingDecision(
             query=plan.subquestion,
             knowledge_domain=plan.knowledge_domain,
-            route_mode=plan.route_mode,
+            route_mode=RouteMode.WEB_FALLBACK if public_web_allowed else plan.route_mode,
             allowed_sources=plan.allowed_sources,
             rag_evidence_status=RagEvidenceStatus.RETRIEVAL_ERROR,
-            web_search_allowed=False,
-            fallback_reason="RETRIEVAL_ERROR_NO_WEB_BYPASS",
+            web_search_allowed=public_web_allowed,
+            fallback_reason=(
+                "PUBLIC_WEB_DURING_RETRIEVAL_ERROR" if public_web_allowed
+                else "RETRIEVAL_ERROR_NO_WEB_BYPASS"
+            ),
+            public_web_subquery=plan.subquestion if public_web_allowed else None,
         )
 
     has_sufficient_rag = bool(evidence and evidence.is_sufficient and evidence.items)
