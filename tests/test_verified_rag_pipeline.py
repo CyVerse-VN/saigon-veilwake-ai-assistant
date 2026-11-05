@@ -215,10 +215,12 @@ async def test_source_router_rag_first_and_conditional_web_policy() -> None:
     assert rw_missing.route_mode == RouteMode.WEB_FALLBACK
     assert rw_missing.web_search_allowed is True
 
-    # Retrieval infrastructure error never opens web search bypass.
+    # Public questions can still use verified web evidence during a RAG outage.
     rw_error = evaluate_routing_decision(rw_plan, None, retrieval_error=True)
     assert rw_error.rag_evidence_status == RagEvidenceStatus.RETRIEVAL_ERROR
-    assert rw_error.web_search_allowed is False
+    assert rw_error.web_search_allowed is True
+    lore_error = evaluate_routing_decision(lore_plan, None, retrieval_error=True)
+    assert lore_error.web_search_allowed is False
 
     # 5. Game state and ambiguous domain never call web.
     gs_plan = analyze_query("Tôi có nhận được mảnh ký ức chưa?")

@@ -153,3 +153,10 @@ The original terminal command continues to work independently.
 
 See [the full Vietnamese guide](docs/Dev_Voice_API_Local_UI.md) for endpoints,
 configuration, diagrams, error handling, data lifetime and the mobile handoff boundary.
+
+## Hỏi Vara: câu hỏi linh hoạt có nguồn
+
+Luồng mobile `/v1` hỗ trợ ngữ cảnh 24 địa danh, câu hỏi tiếp nối, truy xuất công khai
+khi thiếu dữ liệu nội bộ và câu trả lời theo ý hỏi. Xem
+[hướng dẫn Vara](docs/Vara_Flexible_Guide.md) về cấu hình nguồn, thông tin hiện tại,
+kiểm thử và xác nhận phiên bản đã deploy.

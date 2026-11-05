@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import asyncio
 import ipaddress
 import re
 import time
@@ -15,6 +16,7 @@ from uuid import NAMESPACE_URL, uuid5
 
 import httpx
 
+from app.modules.conversation.landmarks import fold_vietnamese, known_landmark_topic
 from app.modules.knowledge.models import Citation, EvidenceItem, EvidencePackage
 from app.modules.query_router.router import (
     DEFAULT_SEARCH_ALIASES,
@@ -54,16 +56,24 @@ _WIKI_TEMPLATE_RE = re.compile(r"\{\{[^{}]*\}\}")
 _WHITESPACE_RE = re.compile(r"\s+")
 _INFOBOX_KEYS: dict[str, str] = {
     "location": "Địa chỉ/Vị trí",
+    "location_town": "Thành phố",
+    "location_city": "Thành phố",
     "địa chỉ": "Địa chỉ",
     "vị trí": "Vị trí",
     "address": "Địa chỉ",
     "architect": "Kiến trúc sư",
     "kiến trúc sư": "Kiến trúc sư",
     "architecture_style": "Phong cách kiến trúc",
+    "architectural_style": "Phong cách kiến trúc",
     "phong cách": "Phong cách kiến trúc",
     "style": "Phong cách kiến trúc",
     "year started": "Năm khởi công",
     "year_started": "Năm khởi công",
+    "construction_start_date": "Khởi công",
+    "groundbreaking": "Khởi công",
+    "built": "Năm xây dựng",
+    "completion_date": "Hoàn thành",
+    "opened": "Khánh thành",
     "khởi công": "Khởi công",
     "year_completed": "Năm hoàn thành",
     "completed": "Năm hoàn thành",
@@ -89,6 +99,43 @@ _QUERY_FILLER_SUFFIX_RE = re.compile(
     r"có\s+kiến\s+trúc\s+gì|xây\s+dựng\s+năm\s+nào|vậy|nhé|đi|không)[?.!\s]*$",
     re.IGNORECASE,
 )
+
+
+def _select_relevant_excerpt(text: str, query: str, *, max_chars: int = 2800) -> str:
+    """Keep question-relevant paragraphs even when they occur after an article's lead."""
+    topic = known_landmark_topic(query) or ""
+    aspect = fold_vietnamese(query).replace(fold_vietnamese(topic), " ")
+    tokens = set(re.findall(r"\w{3,}", aspect)) - {
+        "cho", "toi", "minh", "hay", "nao", "the", "nhu", "ve", "gioi", "thieu",
+    }
+    tokens.difference_update(re.findall(r"\w+", fold_vietnamese(topic)))
+    for trigger, related in (
+        ("nam", "khoi cong hoan thanh khanh thanh xay dung"),
+        ("tuoi", "khoi cong hoan thanh khanh thanh xay dung"),
+        ("thiet ke", "kien truc su thiet ke"),
+        ("dia chi", "dia chi toa lac vi tri duong quan phuong"),
+        ("lich su", "lich su khoi cong xay dung khanh thanh"),
+    ):
+        if trigger in aspect:
+            tokens.update(related.split())
+    # Bound local work while allowing facts well beyond the old 2,800-character prefix.
+    paragraphs = [p.strip() for p in text[:80000].splitlines() if p.strip()]
+    blocks = [p[start:start + 900] for p in paragraphs for start in range(0, len(p), 900)]
+    if not blocks:
+        return ""
+    ranked = sorted(
+        range(len(blocks)),
+        key=lambda idx: (-len(tokens & set(re.findall(r"\w+", fold_vietnamese(blocks[idx])))), idx),
+    )
+    selected: list[str] = []
+    remaining = max_chars
+    for idx in ranked:
+        if remaining <= 0:
+            break
+        block = blocks[idx][:remaining]
+        selected.append(block)
+        remaining -= len(block) + 2
+    return "\n\n".join(selected)
 
 
 @dataclass(frozen=True)
@@ -167,6 +214,10 @@ def _extract_infobox_facts(wikitext: str) -> str:
         if not label:
             continue
         val = _WIKI_LINK_RE.sub(r"\1", val_part)
+        val = re.sub(
+            r"\{\{(?:start date|end date|date|ngày)[^|{}]*\|(?:df=yes\|)?(\d{4})[^{}]*\}\}",
+            r"\1", val, flags=re.IGNORECASE,
+        )
         val = _WIKI_TEMPLATE_RE.sub(" ", val)
         val = _HTML_TAG_RE.sub(" ", val)
         val = _WHITESPACE_RE.sub(" ", val).strip(" ,;|-")
@@ -195,7 +246,8 @@ def sanitize_public_search_query(subquery: str) -> str:
     sanitized = _WHITESPACE_RE.sub(" ", sanitized).strip(" ,;:-?.!")
     paren_match = _PAREN_TOPIC_RE.search(sanitized)
     if paren_match:
-        return paren_match.group(1).strip()
+        # The parenthesis supplies the subject; retain the question's address/date/etc.
+        sanitized = f"{sanitized[:paren_match.start()].strip()} {paren_match.group(1).strip()}"
 
     stripped = _SPOKEN_INTERJECTION_RE.sub("", sanitized).strip(" ,;:-?.!")
     stripped = _QUERY_FILLER_PREFIX_RE.sub("", stripped)
@@ -277,7 +329,10 @@ class WikipediaViWebSearchProvider:
         locale: str = "vi-VN",
         max_results: int = 4,
     ) -> list[WebSearchResult]:
-        del freshness, locale
+        del locale
+        # Encyclopedia revision dates do not establish today's prices, hours or weather.
+        if freshness:
+            return []
         cleaned = query.strip()
         if not cleaned:
             return []
@@ -302,8 +357,9 @@ class WikipediaViWebSearchProvider:
                         params={
                             "action": "query",
                             "list": "search",
-                            "srsearch": cleaned,
+                            "srsearch": known_landmark_topic(cleaned) or cleaned,
                             "srlimit": limit,
+                            "srnamespace": 0,
                             "format": "json",
                         },
                         headers=headers,
@@ -315,26 +371,49 @@ class WikipediaViWebSearchProvider:
                         for hit in search_hits
                         if hit.get("title")
                     ]
+                    if not titles and known_landmark_topic(cleaned):
+                        titles = [known_landmark_topic(cleaned)]
                     if not titles:
                         return []
 
-                    detail_resp = await client.get(
-                        "https://vi.wikipedia.org/w/api.php",
-                        params={
-                            "action": "query",
-                            "titles": "|".join(titles[:limit]),
-                            "prop": "extracts|info|revisions",
-                            "inprop": "url",
-                            "explaintext": 1,
-                            "exchars": 2800,
-                            "rvprop": "content",
-                            "rvsection": 0,
-                            "format": "json",
-                        },
-                        headers=headers,
+                    async def fetch_page(title: str) -> dict[str, Any]:
+                        response = await client.get(
+                            "https://vi.wikipedia.org/w/api.php",
+                            params={
+                                "action": "query", "titles": title,
+                                "prop": "extracts|info|revisions|pageprops",
+                                "ppprop": "disambiguation", "redirects": 1,
+                                "inprop": "url", "explaintext": 1, "exlimit": 1,
+                                # exchars only accepts <=1,200. Omit it to read the
+                                # article, then select bounded relevant passages locally.
+                                "rvprop": "content", "rvsection": 0, "rvslots": "main",
+                                "format": "json",
+                            },
+                            headers=headers,
+                        )
+                        response.raise_for_status()
+                        data = response.json()
+                        if "error" in data:
+                            raise ValueError("Wikipedia API error")
+                        return data.get("query", {}).get("pages", {})
+
+                    details = await asyncio.gather(
+                        *(fetch_page(title) for title in titles[:limit]),
+                        return_exceptions=True,
                     )
-                    detail_resp.raise_for_status()
-                    pages_dict = detail_resp.json().get("query", {}).get("pages", {})
+                    pages_dict = {}
+                    for requested_title, detail in zip(titles, details, strict=False):
+                        if isinstance(detail, dict):
+                            for page in detail.values():
+                                if "missing" not in page:
+                                    pages_dict[requested_title] = page
+                                    break
+                    if not pages_dict:
+                        failed = next(
+                            (item for item in details if isinstance(item, Exception)), None
+                        )
+                        if failed is not None:
+                            raise failed
                 last_exc = None
                 break
             except Exception as exc:
@@ -349,14 +428,12 @@ class WikipediaViWebSearchProvider:
             str(hit.get("title") or "").strip(): str(hit.get("snippet") or "")
             for hit in search_hits
         }
-        page_by_title = {
-            str(page.get("title") or "").strip(): page for page in pages_dict.values()
-        }
         results: list[WebSearchResult] = []
-        for idx, title in enumerate(titles[:limit]):
-            page = page_by_title.get(title)
-            if not page:
+        for idx, requested_title in enumerate(titles[:limit]):
+            page = pages_dict.get(requested_title)
+            if not page or "disambiguation" in page.get("pageprops", {}):
                 continue
+            title = str(page.get("title") or requested_title).strip()
             url = str(page.get("fullurl") or "").strip()
             revisions = page.get("revisions") or []
             rev_first = revisions[0] if revisions else {}
@@ -364,8 +441,11 @@ class WikipediaViWebSearchProvider:
                 rev_first.get("*") or rev_first.get("slots", {}).get("main", {}).get("*") or ""
             )
             infobox_facts = _extract_infobox_facts(wikitext)
-            raw_extract = str(page.get("extract") or "") or snippet_by_title.get(title, "")
-            combined_text = f"{infobox_facts}. {raw_extract}" if infobox_facts else raw_extract
+            raw_extract = (
+                str(page.get("extract") or "") or snippet_by_title.get(requested_title, "")
+            )
+            relevant = _select_relevant_excerpt(raw_extract, cleaned, max_chars=2300)
+            combined_text = f"{infobox_facts[:450]}. {relevant}" if infobox_facts else relevant
             extract = _clean_snippet(combined_text, max_chars=2800)
             if not title or not url or not extract:
                 continue
@@ -478,7 +558,9 @@ class BraveWebSearchProvider:
             "search_lang": "vi",
         }
         if freshness:
-            params["freshness"] = freshness
+            params["freshness"] = {
+                "day": "pd", "week": "pw", "month": "pm", "year": "py",
+            }.get(freshness, freshness)
 
         headers = {
             "Accept": "application/json",
@@ -552,7 +634,6 @@ class WebSearchService:
             in {
                 RagEvidenceStatus.SUFFICIENT,
                 RagEvidenceStatus.ACCESS_RESTRICTED,
-                RagEvidenceStatus.RETRIEVAL_ERROR,
                 RagEvidenceStatus.UNKNOWN_DOMAIN,
             }
         ):

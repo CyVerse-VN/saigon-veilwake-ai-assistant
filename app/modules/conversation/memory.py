@@ -13,9 +13,15 @@ import unicodedata
 from collections.abc import Sequence
 from dataclasses import dataclass
 
+from app.modules.conversation.landmarks import (
+    LANDMARK_NAMES,
+    is_subject_free_place_question,
+    known_landmark_topic,
+)
 from app.modules.knowledge.retrieval import DEFAULT_SEARCH_ALIASES
 
 _KNOWN_TOPICS: tuple[str, ...] = (
+    *LANDMARK_NAMES.values(),
     # Real-world Saigon & regional landmarks
     "Nhà thờ chính tòa Đức Bà Sài Gòn",
     "Nhà thờ Đức Bà Sài Gòn",
@@ -59,7 +65,7 @@ _DEICTIC_REPLACEMENT_PATTERNS: tuple[re.Pattern[str], ...] = (
         re.IGNORECASE,
     ),
     re.compile(
-        r"\b(ở|tại|trong|về)\s+(đó|đấy|nơi\s+đó|chỗ\s+đó)\b",
+        r"\b(ở|tại|trong|về|gần|quanh)\s+(đó|đấy|đây|nơi\s+đó|chỗ\s+đó)\b",
         re.IGNORECASE,
     ),
     re.compile(
@@ -145,6 +151,9 @@ def extract_topic_hint(query: str) -> str | None:
             return canonical
 
     # 2. Check known real-world landmarks and lore topics (longest match wins).
+    landmark = known_landmark_topic(cleaned)
+    if landmark:
+        return landmark
     matched_known = [topic for topic in _KNOWN_TOPICS if topic.lower() in lowered]
     if matched_known:
         matched_known.sort(key=len, reverse=True)
@@ -205,8 +214,12 @@ def resolve_followup_query(
     # 2. Elliptical follow-up ("Giới thiệu thêm", "Xây dựng năm nào?", "Kiến trúc thế nào?")
     # Only rewrite if the new query does not already mention a known topic.
     lowered = cleaned.lower()
-    already_has_known_topic = any(t.lower() in lowered for t in _KNOWN_TOPICS)
-    if not already_has_known_topic and _ELLIPTICAL_FOLLOWUP_PATTERN.search(cleaned):
+    already_has_known_topic = known_landmark_topic(cleaned) or any(
+        t.lower() in lowered for t in _KNOWN_TOPICS
+    )
+    if not already_has_known_topic and (
+        _ELLIPTICAL_FOLLOWUP_PATTERN.search(cleaned) or is_subject_free_place_question(cleaned)
+    ):
         return f"{cleaned} ({last_topic})"
 
     return cleaned
